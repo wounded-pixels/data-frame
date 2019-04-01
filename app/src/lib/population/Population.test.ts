@@ -28,5 +28,6 @@ test('sample with replacement', () => {
 
 });
 
-// TODO: population.sample(10) should produce a subset population of size 10
+
+// TODO: build population data frames by addding? or rules based?
 // TODO: population.addCategoricalColumn('color', [{value: 'blue', ratio: 1}])  addFactorColumn ??

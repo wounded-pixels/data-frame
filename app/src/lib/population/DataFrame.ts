@@ -1,42 +1,83 @@
 // @ts-ignore
 import random from 'random';
+import _ from 'lodash';
 
 import {NumericalColumn} from './NumericalColumn';
 
 export class DataFrame {
-  height: number;
-  columnMap: {[key: string]: NumericalColumn} = {};
-  // TODO need base Column class? how to handle things that have numerical methods vs not?
+    height: number;
+    width: number = 0;
+    columnMap: { [key: string]: NumericalColumn } = {};
 
-  constructor(columns: NumericalColumn[]) {
-    this.height = columns[0].length;
+    // TODO need base Column class? how to handle things that have numerical methods vs not?
 
-    columns.forEach(column => {
-      this.columnMap[column.name] = column;
-      if (this.height !== column.length) {
-        throw new Error('All columns must have the same length');
-      }
-    });
-  }
+    constructor(columns: NumericalColumn[]) {
+        this.height = columns[0].length;
 
-  column(name: string): NumericalColumn {
-    return this.columnMap[name];
-  }
-
-  sampleWithReplacement(size: number) {
-    const indexes: number[] = [];
-    for (let ctr=0; ctr < size; ctr++) {
-      indexes.push(random.int(0, this.height-1));
+        columns.forEach(column => {
+            this.columnMap[column.name] = column;
+            this.width++;
+            if (this.height !== column.length) {
+                throw new Error('All columns must have the same length');
+            }
+        });
     }
 
-    const sampleColumns: NumericalColumn[] = Object.values(this.columnMap).map(column => {
-      const newValues = indexes.map(index => {
-        return column.values[index];
-      });
+    column(name: string): NumericalColumn {
+        return this.columnMap[name];
+    }
 
-      return new NumericalColumn(column.name, newValues);
-    });
+    dataFrameFromIndexes(indexes: number[]): DataFrame {
+        const columns: NumericalColumn[] = Object.values(this.columnMap).map(column => {
+            const newValues = indexes.map(index => {
+                return column.values[index];
+            });
 
-    return new DataFrame(sampleColumns);
-  }
+            return new NumericalColumn(column.name, newValues);
+        });
+
+        return new DataFrame(columns);
+    }
+
+    sampleWithReplacement(size: number): DataFrame {
+        const indexes: number[] = [];
+        for (let ctr = 0; ctr < size; ctr++) {
+            indexes.push(random.int(0, this.height - 1));
+        }
+
+        return this.dataFrameFromIndexes(indexes);
+    }
+
+    sampleWithoutReplacement(size: number): DataFrame {
+        if (size > this.height) {
+            throw new Error('Sample size must be less than data frame height');
+        }
+
+        const possibleIndexes = _.range(this.height);
+        const indexes: number[] = [];
+
+        while (indexes.length < size) {
+            const index = possibleIndexes[random.int(0, possibleIndexes.length - 1)];
+            indexes.push(index);
+            _.pull(possibleIndexes, index);
+        }
+
+        return this.dataFrameFromIndexes(indexes);
+
+    }
+
+    dimensions() {
+        return {rows: this.height, columns: this.width};
+    }
+
+    static rowBind(top: DataFrame, bottom: DataFrame): DataFrame {
+        const combinedColumns: NumericalColumn[] = Object.values(top.columnMap).map(column => {
+            const { name, values } = column;
+            const bottomValues: number[] = bottom.column(name).values;
+
+            return new NumericalColumn(name, values.concat(bottomValues));
+        });
+
+        return new DataFrame(combinedColumns);
+    }
 }
