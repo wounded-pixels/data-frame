@@ -19,11 +19,27 @@ test('sample with replacement', () => {
 });
 
 test('sample without replacement', () => {
-    for (let ctr = 0; ctr < 100; ctr++) {
-        const swor = heightsAndWeights.sampleWithoutReplacement(3);
-        expect(swor.dimensions()).toEqual({rows: 3, columns: 2});
-        expect(swor.column('height').mean()).toEqual((62 + 50 + 55) / 3);
+    let fiftyFirstCtr = 0;
+    const reps = 10000;
+    for (let ctr=0; ctr<reps;ctr++) {
+        const sample = heightsAndWeights.sampleWithoutReplacement(3);
+        expect(sample.dimensions()).toEqual({rows: 3, columns: 2});
+        const hc = sample.column('height');
+
+        expect(hc.values.length).toBe(3);
+
+        expect(hc.values.includes(62)).toBeTruthy();
+        expect(hc.values.includes(50)).toBeTruthy();
+        expect(hc.values.includes(55)).toBeTruthy();
+
+        const mean = heightColumn.mean();
+        expect(mean).toBeCloseTo((62 + 50 + 55) / 3);
+
+        hc.values[0] === 50 && fiftyFirstCtr++;
     }
+
+    expect(fiftyFirstCtr/reps).toBeCloseTo(1/3, 1);
+
 });
 
 test('row bind', () => {

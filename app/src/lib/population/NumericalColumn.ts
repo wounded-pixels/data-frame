@@ -10,9 +10,11 @@ export class NumericalColumn {
   }
 
   mean() {
-    const sum = this.values.reduce((previous, current) => {
-      return previous+current
-    }, 0);
+    let sum = 0;
+    for (let ctr = 0; ctr < this.values.length; ctr++) {
+      sum += this.values[ctr];
+    }
+
     return sum / this.values.length;
   }
 }

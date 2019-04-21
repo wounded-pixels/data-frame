@@ -1,7 +1,7 @@
 // @ts-ignore
 import random from 'random';
-import _ from 'lodash';
 
+import {createRange, removeValue} from '../util/arrays';
 import {NumericalColumn} from './NumericalColumn';
 
 export class DataFrame {
@@ -53,13 +53,13 @@ export class DataFrame {
             throw new Error('Sample size must be less than data frame height');
         }
 
-        const possibleIndexes = _.range(this.height);
+        const possibleIndexes = createRange(0, this.height);
         const indexes: number[] = [];
 
         while (indexes.length < size) {
             const index = possibleIndexes[random.int(0, possibleIndexes.length - 1)];
             indexes.push(index);
-            _.pull(possibleIndexes, index);
+            removeValue(possibleIndexes, index);
         }
 
         return this.dataFrameFromIndexes(indexes);
