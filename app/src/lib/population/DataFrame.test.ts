@@ -26,16 +26,17 @@ test('sample without replacement', () => {
         expect(sample.dimensions()).toEqual({rows: 3, columns: 2});
         const hc = sample.column('height');
 
-        expect(hc.values.length).toBe(3);
+        const values = hc.values();
+        expect(values.length).toBe(3);
 
-        expect(hc.values.includes(62)).toBeTruthy();
-        expect(hc.values.includes(50)).toBeTruthy();
-        expect(hc.values.includes(55)).toBeTruthy();
+        expect(values.includes(62)).toBeTruthy();
+        expect(values.includes(50)).toBeTruthy();
+        expect(values.includes(55)).toBeTruthy();
 
         const mean = heightColumn.mean();
         expect(mean).toBeCloseTo((62 + 50 + 55) / 3);
 
-        hc.values[0] === 50 && fiftyFirstCtr++;
+        values[0] === 50 && fiftyFirstCtr++;
     }
 
     expect(fiftyFirstCtr/reps).toBeCloseTo(1/3, 1);

@@ -5,19 +5,19 @@ import {createRange, removeValue} from '../util/arrays';
 import {NumericalColumn} from './NumericalColumn';
 
 export class DataFrame {
-    height: number;
-    width: number = 0;
-    columnMap: { [key: string]: NumericalColumn } = {};
+    private readonly height: number;
+    private width: number = 0;
+    private columnMap: { [key: string]: NumericalColumn } = {};
 
     // TODO need base Column class? how to handle things that have numerical methods vs not?
 
     constructor(columns: NumericalColumn[]) {
-        this.height = columns[0].length;
+        this.height = columns[0].length();
 
         columns.forEach(column => {
-            this.columnMap[column.name] = column;
+            this.columnMap[column.name()] = column;
             this.width++;
-            if (this.height !== column.length) {
+            if (this.height !== column.length()) {
                 throw new Error('All columns must have the same length');
             }
         });
@@ -29,11 +29,12 @@ export class DataFrame {
 
     dataFrameFromIndexes(indexes: number[]): DataFrame {
         const columns: NumericalColumn[] = Object.values(this.columnMap).map(column => {
+            const originalValues = column.values();
             const newValues = indexes.map(index => {
-                return column.values[index];
+                return originalValues[index];
             });
 
-            return new NumericalColumn(column.name, newValues);
+            return new NumericalColumn(column.name(), newValues);
         });
 
         return new DataFrame(columns);
@@ -72,8 +73,9 @@ export class DataFrame {
 
     static rowBind(top: DataFrame, bottom: DataFrame): DataFrame {
         const combinedColumns: NumericalColumn[] = Object.values(top.columnMap).map(column => {
-            const { name, values } = column;
-            const bottomValues: number[] = bottom.column(name).values;
+            const name = column.name();
+            const values = column.values();
+            const bottomValues: number[] = bottom.column(name).values();
 
             return new NumericalColumn(name, values.concat(bottomValues));
         });

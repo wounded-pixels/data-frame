@@ -1,20 +1,34 @@
 export class NumericalColumn {
-  name: string;
-  values: number[];
-  length: number;
+  private readonly aName: string;
+  private readonly theValues: number[];
 
   constructor(name: string, values: number[]) {
-    this.name = name;
-    this.values = values;
-    this.length = values.length;
+    this.aName = name;
+    this.theValues = values;
   }
 
-  mean() {
-    let sum = 0;
-    for (let ctr = 0; ctr < this.values.length; ctr++) {
-      sum += this.values[ctr];
-    }
+  sum(): number {
+      let sum = 0;
+      for (let ctr = 0; ctr < this.theValues.length; ctr++) {
+          sum += this.theValues[ctr];
+      }
 
-    return sum / this.values.length;
+      return sum;
+  }
+
+  mean(): number {
+    return this.sum() / this.length();
+  }
+
+  name(): string {
+    return this.aName;
+  }
+
+  values(): number[] {
+      return [...this.theValues];
+  }
+
+  length(): number {
+      return this.theValues.length;
   }
 }
