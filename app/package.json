@@ -28,5 +28,17 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "husky": "^2.1.0",
+    "onchange": "^5.2.0",
+    "prettier": "^1.17.0",
+    "pretty-quick": "^1.10.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx pretty-quick --staged && CI=true npm test",
+      "pre-push": "npm test"
+    }
+  }
 }

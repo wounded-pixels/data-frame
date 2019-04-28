@@ -1,9 +1,8 @@
 // @ts-ignore
 import random from 'random';
 
-import {DataFrame} from './DataFrame';
-import {NumericalColumn} from './NumericalColumn';
-
+import { DataFrame } from './DataFrame';
+import { NumericalColumn } from './NumericalColumn';
 
 abstract class ColumnDefinition {
   name: string;
@@ -28,7 +27,7 @@ class NormalColumnDefinition extends ColumnDefinition {
   generate(size: number): NumericalColumn {
     const normalGenerator = random.normal(this.mu, this.sigma);
     const values = [];
-    for (let ctr=0;ctr<size;ctr++) {
+    for (let ctr = 0; ctr < size; ctr++) {
       values.push(normalGenerator());
     }
 
