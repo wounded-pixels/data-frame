@@ -24,6 +24,7 @@ export class NumericalColumn {
     return this.aName;
   }
 
+  /** copy of values */
   values(): number[] {
       return [...this.theValues];
   }

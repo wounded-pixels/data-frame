@@ -11,6 +11,16 @@ test('construction', () => {
     expect(dimensions).toEqual({rows: 3, columns: 2});
 });
 
+test('uneven columns in construction', () => {
+   const shortColumn = new NumericalColumn('short', [1,2]);
+   const longColumn = new NumericalColumn('long', [1,2,3,4]);
+
+   const badConstruction = () => {
+       new DataFrame([shortColumn, longColumn]);
+   };
+   expect(badConstruction).toThrow(Error);
+});
+
 test('sample with replacement', () => {
     const swr = heightsAndWeights.sampleWithReplacement(1000);
 
@@ -41,6 +51,14 @@ test('sample without replacement', () => {
 
     expect(fiftyFirstCtr/reps).toBeCloseTo(1/3, 1);
 
+});
+
+test('too many without replacement', () => {
+   const badSample = () => {
+       heightsAndWeights.sampleWithoutReplacement(4);
+   };
+
+   expect(badSample).toThrow(Error);
 });
 
 test('row bind', () => {
