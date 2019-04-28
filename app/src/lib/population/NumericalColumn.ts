@@ -1,35 +1,33 @@
-export class NumericalColumn {
-  private readonly aName: string;
-  private readonly theValues: number[];
+import {Column} from './Column';
 
-  constructor(name: string, values: number[]) {
-    this.aName = name;
-    this.theValues = values;
-  }
 
-  sum(): number {
-      let sum = 0;
-      for (let ctr = 0; ctr < this.theValues.length; ctr++) {
-          sum += this.theValues[ctr];
-      }
+export class NumericalColumn extends Column {
+    private readonly theValues: number[];
 
-      return sum;
-  }
+    constructor(name: string, values: number[]) {
+        super(name);
+        this.theValues = values;
+    }
 
-  mean(): number {
-    return this.sum() / this.length();
-  }
+    sum(): number {
+        let sum = 0;
+        for (let ctr = 0; ctr < this.theValues.length; ctr++) {
+            sum += this.theValues[ctr];
+        }
 
-  name(): string {
-    return this.aName;
-  }
+        return sum;
+    }
 
-  /** copy of values */
-  values(): number[] {
-      return [...this.theValues];
-  }
+    mean(): number {
+        return this.sum() / this.length();
+    }
 
-  length(): number {
-      return this.theValues.length;
-  }
+    /** copy of values */
+    values(): number[] {
+        return [...this.theValues];
+    }
+
+    length(): number {
+        return this.theValues.length;
+    }
 }

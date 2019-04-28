@@ -7,8 +7,8 @@ DataFrame type thing in TypeScript
  
  Columns
  * Base class for columns - name, length, values
- * Text column
  * Categorical column
+ * Text column
  * Ordinal column
  * Read from array and deduce type
  
