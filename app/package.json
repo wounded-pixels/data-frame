@@ -38,7 +38,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npx pretty-quick --staged && CI=true npm test",
-      "pre-push": "npm test"
+      "pre-push": "CI=true npm test"
     }
   }
 }
