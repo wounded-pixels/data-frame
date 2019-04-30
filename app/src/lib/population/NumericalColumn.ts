@@ -29,4 +29,20 @@ export class NumericalColumn extends Column {
   length(): number {
     return this.theValues.length;
   }
+
+  fromIndexes(indexes: number[]): Column {
+    const newValues = indexes.map(index => {
+      return this.theValues[index];
+    });
+
+    return new NumericalColumn(this.name(), newValues);
+  }
+
+  bind(bottom: Column): Column {
+    const bottomNC = bottom as NumericalColumn;
+    return new NumericalColumn(
+      this.name(),
+      this.values().concat(bottomNC.values())
+    );
+  }
 }

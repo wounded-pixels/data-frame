@@ -1,4 +1,5 @@
 import { Column } from './Column';
+import { NumericalColumn } from './NumericalColumn';
 
 export class CategoricalColumn extends Column {
   private readonly indexes: number[] = [];
@@ -34,5 +35,18 @@ export class CategoricalColumn extends Column {
   /** copy of categories */
   categories(): string[] {
     return [...this.theCategories];
+  }
+
+  fromIndexes(indexes: number[]): Column {
+    const newValues = indexes.map(index => {
+      return this.theCategories[index];
+    });
+
+    return new CategoricalColumn(this.name(), newValues);
+  }
+
+  bind(bottom: Column): Column {
+    const bottomCC = bottom as CategoricalColumn;
+    return new CategoricalColumn(name, this.values().concat(bottomCC.values()));
   }
 }

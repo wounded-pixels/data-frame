@@ -31,23 +31,7 @@ export class DataFrame {
 
   dataFrameFromIndexes(indexes: number[]): DataFrame {
     const columns: Column[] = Object.values(this.columnMap).map(column => {
-      const type = column.type();
-
-      if (type === 'numerical') {
-        const originalValues = column.values() as number[];
-        const newValues = indexes.map(index => {
-          return originalValues[index];
-        });
-
-        return new NumericalColumn(column.name(), newValues);
-      } else {
-        const originalValues = column.values() as string[];
-        const newValues = indexes.map(index => {
-          return originalValues[index];
-        });
-
-        return new CategoricalColumn(column.name(), newValues);
-      }
+      return column.fromIndexes(indexes);
     });
 
     return new DataFrame(columns);
@@ -86,18 +70,7 @@ export class DataFrame {
   static rowBind(top: DataFrame, bottom: DataFrame): DataFrame {
     const combinedColumns: Column[] = Object.values(top.columnMap).map(
       column => {
-        const type = column.type();
-        const name = column.name();
-
-        if (type === 'numerical') {
-          const values = column.values() as number[];
-          const bottomValues = bottom.column(name).values() as number[];
-          return new NumericalColumn(name, values.concat(bottomValues));
-        } else {
-          const values = column.values() as string[];
-          const bottomValues = bottom.column(name).values() as string[];
-          return new CategoricalColumn(name, values.concat(bottomValues));
-        }
+        return column.bind(bottom.column(column.name()));
       }
     );
 

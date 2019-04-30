@@ -77,17 +77,19 @@ test('too many without replacement', () => {
 test('row bind', () => {
   const heights1 = new NumericalColumn('height', [72, 68]);
   const weights1 = new NumericalColumn('weight', [230, 190]);
-  const heightsWeightsGenders1 = new DataFrame([heights1, weights1]);
+  const genders1 = new CategoricalColumn('gender', ['male', 'male']);
+  const heightsWeightsGenders1 = new DataFrame([heights1, weights1, genders1]);
 
   const heights2 = new NumericalColumn('height', [77, 78]);
   const weights2 = new NumericalColumn('weight', [268, 261]);
-  const heightsWeightsGenders2 = new DataFrame([weights2, heights2]);
+  const genders2 = new CategoricalColumn('gender', ['female', 'female']);
+  const heightsWeightsGenders2 = new DataFrame([weights2, heights2, genders2]);
 
   const combined = DataFrame.rowBind(
     heightsWeightsGenders1,
     heightsWeightsGenders2
   );
-  expect(combined.dimensions()).toEqual({ rows: 4, columns: 2 });
+  expect(combined.dimensions()).toEqual({ rows: 4, columns: 3 });
   expect(combined.column('height').mean()).toEqual((72 + 68 + 77 + 78) / 4);
 });
 
