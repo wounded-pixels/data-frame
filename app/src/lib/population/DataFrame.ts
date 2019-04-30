@@ -3,15 +3,17 @@ import random from 'random';
 
 import { createRange, removeValue } from '../util/arrays';
 import { NumericalColumn } from './NumericalColumn';
+import { Column } from './Column';
+import { CategoricalColumn } from './CategoricalColumn';
 
 export class DataFrame {
   private readonly height: number;
   private width: number = 0;
-  private columnMap: { [key: string]: NumericalColumn } = {};
+  private columnMap: { [key: string]: Column } = {};
 
   // TODO need base Column class? how to handle things that have numerical methods vs not?
 
-  constructor(columns: NumericalColumn[]) {
+  constructor(columns: Column[]) {
     this.height = columns[0].length();
 
     columns.forEach(column => {
@@ -23,21 +25,30 @@ export class DataFrame {
     });
   }
 
-  column(name: string): NumericalColumn {
+  column(name: string): Column {
     return this.columnMap[name];
   }
 
   dataFrameFromIndexes(indexes: number[]): DataFrame {
-    const columns: NumericalColumn[] = Object.values(this.columnMap).map(
-      column => {
-        const originalValues = column.values();
+    const columns: Column[] = Object.values(this.columnMap).map(column => {
+      const type = column.type();
+
+      if (type === 'numerical') {
+        const originalValues = column.values() as number[];
         const newValues = indexes.map(index => {
           return originalValues[index];
         });
 
         return new NumericalColumn(column.name(), newValues);
+      } else {
+        const originalValues = column.values() as string[];
+        const newValues = indexes.map(index => {
+          return originalValues[index];
+        });
+
+        return new CategoricalColumn(column.name(), newValues);
       }
-    );
+    });
 
     return new DataFrame(columns);
   }
@@ -73,13 +84,20 @@ export class DataFrame {
   }
 
   static rowBind(top: DataFrame, bottom: DataFrame): DataFrame {
-    const combinedColumns: NumericalColumn[] = Object.values(top.columnMap).map(
+    const combinedColumns: Column[] = Object.values(top.columnMap).map(
       column => {
+        const type = column.type();
         const name = column.name();
-        const values = column.values();
-        const bottomValues: number[] = bottom.column(name).values();
 
-        return new NumericalColumn(name, values.concat(bottomValues));
+        if (type === 'numerical') {
+          const values = column.values() as number[];
+          const bottomValues = bottom.column(name).values() as number[];
+          return new NumericalColumn(name, values.concat(bottomValues));
+        } else {
+          const values = column.values() as string[];
+          const bottomValues = bottom.column(name).values() as string[];
+          return new CategoricalColumn(name, values.concat(bottomValues));
+        }
       }
     );
 

@@ -4,7 +4,7 @@ export class NumericalColumn extends Column {
   private readonly theValues: number[];
 
   constructor(name: string, values: number[]) {
-    super(name);
+    super('numerical', name);
     this.theValues = values;
   }
 
