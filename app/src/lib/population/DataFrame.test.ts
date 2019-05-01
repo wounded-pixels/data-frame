@@ -36,34 +36,54 @@ test('uneven columns in construction', () => {
 });
 
 test('sample with replacement', () => {
-  const swr = heightsWeightsGenders.sampleWithReplacement(1000);
+  const sampleSize = 10000;
+  const swr = heightsWeightsGenders.sampleWithReplacement(sampleSize);
 
-  expect(swr.dimensions()).toEqual({ rows: 1000, columns: 3 });
+  expect(swr.dimensions()).toEqual({ rows: sampleSize, columns: 3 });
   expect(swr.column('height').mean()).toBeCloseTo(heightColumn.mean(), 0);
+
+  const femaleCount = swr
+    .column('gender')
+    .values()
+    .reduce((count: number, gender) => {
+      return gender === 'female' ? count + 1 : count;
+    }, 0);
+
+  const expectedFemaleCount = Math.round(sampleSize / 3);
+  expect(femaleCount / 1000).toBeCloseTo(expectedFemaleCount / 1000, 0);
 });
 
 test('sample without replacement', () => {
   let fiftyFirstCtr = 0;
+  let maleFirstCtr = 0;
+
   const reps = 10000;
   for (let ctr = 0; ctr < reps; ctr++) {
     const sample = heightsWeightsGenders.sampleWithoutReplacement(3);
     expect(sample.dimensions()).toEqual({ rows: 3, columns: 3 });
-    const hc = sample.column('height');
 
-    const values = hc.values();
-    expect(values.length).toBe(3);
+    const heightValues = sample.column('height').values();
+    const genderValues = sample.column('gender').values();
 
-    expect(values.includes(72)).toBeTruthy();
-    expect(values.includes(68)).toBeTruthy();
-    expect(values.includes(61)).toBeTruthy();
+    expect(heightValues.length).toBe(3);
+    expect(genderValues.length).toBe(3);
+
+    expect(heightValues.includes(72)).toBeTruthy();
+    expect(heightValues.includes(68)).toBeTruthy();
+    expect(heightValues.includes(61)).toBeTruthy();
+
+    expect(genderValues.includes('male')).toBeTruthy();
+    expect(genderValues.includes('female')).toBeTruthy();
 
     const mean = heightColumn.mean();
     expect(mean).toBeCloseTo((72 + 68 + 61) / 3);
 
-    values[0] === 68 && fiftyFirstCtr++;
+    heightValues[0] === 68 && fiftyFirstCtr++;
+    genderValues[0] === 'male' && maleFirstCtr++;
   }
 
   expect(fiftyFirstCtr / reps).toBeCloseTo(1 / 3, 1);
+  expect(maleFirstCtr / reps).toBeCloseTo(2 / 3, 1);
 });
 
 test('too many without replacement', () => {

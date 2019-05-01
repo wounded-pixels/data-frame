@@ -1,14 +1,8 @@
 export abstract class Column {
-  protected readonly aName: string;
-  private readonly aType: string;
+  private readonly aName: string;
 
-  protected constructor(type: string, name: string) {
-    this.aType = type;
+  protected constructor(name: string) {
     this.aName = name;
-  }
-
-  type(): string {
-    return this.aType;
   }
 
   name(): string {

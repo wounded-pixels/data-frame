@@ -6,7 +6,7 @@ export class CategoricalColumn extends Column {
   private readonly theCategories: string[] = [];
 
   constructor(name: string, rawValues: string[]) {
-    super('categorical', name);
+    super(name);
     this.theCategories = Array.from(new Set(rawValues)).sort();
     this.indexes = rawValues.map(value => {
       return this.theCategories.indexOf(value);
@@ -38,7 +38,8 @@ export class CategoricalColumn extends Column {
   }
 
   fromIndexes(indexes: number[]): Column {
-    const newValues = indexes.map(index => {
+    const newValues = indexes.map(row => {
+      const index = this.indexes[row];
       return this.theCategories[index];
     });
 

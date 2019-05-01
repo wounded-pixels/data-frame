@@ -17,3 +17,8 @@ test('column values are immutable', () => {
   expect(column.values().join()).toEqual('62,50,55');
   expect(column.mean()).toEqual(167 / 3);
 });
+
+test('from indexes', () => {
+  const firstFirstLast = column.fromIndexes([0, 0, 2]);
+  expect(firstFirstLast.values().join()).toEqual('62,62,55');
+});
