@@ -23,6 +23,12 @@ test('construction', () => {
     (72 + 68 + 61) / 3
   );
   expect(heightsWeightsGenders.column('height').sum()).toBe(72 + 68 + 61);
+  expect(
+    heightsWeightsGenders
+      .column('gender')
+      .categories()
+      .join()
+  ).toBe('female,male');
 });
 
 test('uneven columns in construction', () => {

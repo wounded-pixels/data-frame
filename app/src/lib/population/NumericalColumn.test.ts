@@ -22,3 +22,11 @@ test('from indexes', () => {
   const firstFirstLast = column.fromIndexes([0, 0, 2]);
   expect(firstFirstLast.values().join()).toEqual('62,62,55');
 });
+
+test('no categories', () => {
+  const call = () => {
+    column.categories();
+  };
+
+  expect(call).toThrow(Error);
+});

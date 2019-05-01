@@ -3,20 +3,22 @@ import random from 'random';
 
 import { DataFrame } from './DataFrame';
 import { NumericalColumn } from './NumericalColumn';
+import { Column } from './Column';
+import { CategoricalColumn } from './CategoricalColumn';
 
 abstract class ColumnDefinition {
-  name: string;
+  protected name: string;
 
   protected constructor(name: string) {
     this.name = name;
   }
 
-  abstract generate(size: number): NumericalColumn;
+  abstract generate(size: number): Column;
 }
 
 class NormalColumnDefinition extends ColumnDefinition {
-  mu: number;
-  sigma: number;
+  private readonly mu: number;
+  private readonly sigma: number;
 
   constructor(name: string, mu: number, sigma: number) {
     super(name);
@@ -35,11 +37,34 @@ class NormalColumnDefinition extends ColumnDefinition {
   }
 }
 
+class ConstantCategoryDefinition extends ColumnDefinition {
+  private readonly value: string;
+
+  constructor(name: string, value: string) {
+    super(name);
+    this.value = value;
+  }
+
+  generate(size: number): CategoricalColumn {
+    const values = [];
+    for (let ctr = 0; ctr < size; ctr++) {
+      values.push(this.value);
+    }
+
+    return new CategoricalColumn(this.name, values);
+  }
+}
+
 export class Population {
   columnDefinitions: ColumnDefinition[] = [];
 
   addNormalColumn(name: string, mu: number, sigma: number): Population {
     this.columnDefinitions.push(new NormalColumnDefinition(name, mu, sigma));
+    return this;
+  }
+
+  addCategoricalColumn(name: string, value: string): Population {
+    this.columnDefinitions.push(new ConstantCategoryDefinition(name, value));
     return this;
   }
 

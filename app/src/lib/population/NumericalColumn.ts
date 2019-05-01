@@ -45,4 +45,8 @@ export class NumericalColumn extends Column {
       this.values().concat(bottomNC.values())
     );
   }
+
+  categories(): string[] {
+    throw new Error('no categories for Numerical column');
+  }
 }

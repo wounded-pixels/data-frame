@@ -11,6 +11,7 @@ export abstract class Column {
 
   abstract length(): number;
   abstract values(): (number | string)[];
+  abstract categories(): string[];
   abstract mean(): number;
   abstract sum(): number;
   abstract fromIndexes(indexes: number[]): Column;
