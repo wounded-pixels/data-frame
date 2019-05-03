@@ -29,9 +29,9 @@ export class DataFrame {
     return this.columnMap[name];
   }
 
-  dataFrameFromIndexes(indexes: number[]): DataFrame {
+  fromRowIndexes(indexes: number[]): DataFrame {
     const columns: Column[] = Object.values(this.columnMap).map(column => {
-      return column.fromIndexes(indexes);
+      return column.fromRowIndexes(indexes);
     });
 
     return new DataFrame(columns);
@@ -43,7 +43,7 @@ export class DataFrame {
       indexes.push(random.int(0, this.height - 1));
     }
 
-    return this.dataFrameFromIndexes(indexes);
+    return this.fromRowIndexes(indexes);
   }
 
   sampleWithoutReplacement(size: number): DataFrame {
@@ -60,7 +60,7 @@ export class DataFrame {
       removeValue(possibleIndexes, index);
     }
 
-    return this.dataFrameFromIndexes(indexes);
+    return this.fromRowIndexes(indexes);
   }
 
   dimensions() {

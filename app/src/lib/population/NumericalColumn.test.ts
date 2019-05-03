@@ -19,8 +19,14 @@ test('column values are immutable', () => {
 });
 
 test('from indexes', () => {
-  const firstFirstLast = column.fromIndexes([0, 0, 2]);
+  const firstFirstLast = column.fromRowIndexes([0, 0, 2]);
   expect(firstFirstLast.values().join()).toEqual('62,62,55');
+});
+
+test('sparse - mean should ignore nulls', () => {
+  const sparseColumn = new NumericalColumn('sparse', [1, 2, null, 5, 7, 1, 1]);
+  expect(sparseColumn.mean()).toBe((1 + 2 + 5 + 7 + 1 + 1) / 6);
+  expect(sparseColumn.values().join()).toEqual('1,2,,5,7,1,1');
 });
 
 test('no categories', () => {

@@ -16,8 +16,21 @@ test('basics', () => {
 });
 
 test('from indexes', () => {
-  const firstFirstLast = column.fromIndexes([0, 0, 4]);
+  const firstFirstLast = column.fromRowIndexes([0, 0, 4]);
   expect(firstFirstLast.values().join()).toEqual('honda,honda,chevy');
+});
+
+test('sparse', () => {
+  const sparseColumn = new CategoricalColumn('sparse', [
+    'red',
+    'blue',
+    null,
+    'red',
+  ]);
+  expect(sparseColumn.values().join()).toEqual('red,blue,,red');
+
+  const firstThirdFourth = sparseColumn.fromRowIndexes([0, 2, 3]);
+  expect(firstThirdFourth.values().join()).toEqual('red,,red');
 });
 
 test('no mean', () => {

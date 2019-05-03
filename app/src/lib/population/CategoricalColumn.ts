@@ -1,15 +1,16 @@
 import { Column } from './Column';
-import { NumericalColumn } from './NumericalColumn';
 
 export class CategoricalColumn extends Column {
-  private readonly indexes: number[] = [];
+  private readonly indexes: (number | null)[] = [];
   private readonly theCategories: string[] = [];
 
-  constructor(name: string, rawValues: string[]) {
+  constructor(name: string, rawValues: (string | null)[]) {
     super(name);
-    this.theCategories = Array.from(new Set(rawValues)).sort();
+    this.theCategories = Array.from(
+      new Set(rawValues.filter(value => !!value))
+    ).sort() as string[];
     this.indexes = rawValues.map(value => {
-      return this.theCategories.indexOf(value);
+      return !value ? null : this.theCategories.indexOf(value);
     });
   }
 
@@ -26,9 +27,9 @@ export class CategoricalColumn extends Column {
   }
 
   /** copy of values */
-  values(): string[] {
-    return this.indexes.map(value => {
-      return this.theCategories[value];
+  values(): (string | null)[] {
+    return this.indexes.map(index => {
+      return index !== null ? this.theCategories[index as number] : null;
     });
   }
 
@@ -37,10 +38,12 @@ export class CategoricalColumn extends Column {
     return [...this.theCategories];
   }
 
-  fromIndexes(indexes: number[]): Column {
-    const newValues = indexes.map(row => {
-      const index = this.indexes[row];
-      return this.theCategories[index];
+  fromRowIndexes(indexes: number[]): Column {
+    const newValues = indexes.map(rowIndex => {
+      const categoryIndex = this.indexes[rowIndex];
+      return categoryIndex !== null
+        ? this.theCategories[categoryIndex as number]
+        : null;
     });
 
     return new CategoricalColumn(this.name(), newValues);

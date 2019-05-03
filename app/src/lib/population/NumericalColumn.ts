@@ -1,9 +1,9 @@
 import { Column } from './Column';
 
 export class NumericalColumn extends Column {
-  private readonly theValues: number[];
+  private readonly theValues: (number | null)[];
 
-  constructor(name: string, values: number[]) {
+  constructor(name: string, values: (number | null)[]) {
     super(name);
     this.theValues = values;
   }
@@ -11,18 +11,20 @@ export class NumericalColumn extends Column {
   sum(): number {
     let sum = 0;
     for (let ctr = 0; ctr < this.theValues.length; ctr++) {
-      sum += this.theValues[ctr];
+      if (this.theValues[ctr]) {
+        sum += this.theValues[ctr] as number;
+      }
     }
 
     return sum;
   }
 
   mean(): number {
-    return this.sum() / this.length();
+    return this.sum() / this.nonNullLength();
   }
 
   /** copy of values */
-  values(): number[] {
+  values(): (number | null)[] {
     return [...this.theValues];
   }
 
@@ -30,7 +32,7 @@ export class NumericalColumn extends Column {
     return this.theValues.length;
   }
 
-  fromIndexes(indexes: number[]): Column {
+  fromRowIndexes(indexes: number[]): Column {
     const newValues = indexes.map(index => {
       return this.theValues[index];
     });
@@ -48,5 +50,9 @@ export class NumericalColumn extends Column {
 
   categories(): string[] {
     throw new Error('no categories for Numerical column');
+  }
+
+  private nonNullLength(): number {
+    return this.theValues.filter(value => !!value).length;
   }
 }

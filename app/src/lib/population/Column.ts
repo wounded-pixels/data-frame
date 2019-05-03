@@ -9,11 +9,15 @@ export abstract class Column {
     return this.aName;
   }
 
+  // subclasses must implement these required methods
   abstract length(): number;
-  abstract values(): (number | string)[];
+  abstract values(): (number | string | null)[];
+  abstract fromRowIndexes(indexes: number[]): Column;
+  abstract bind(bottom: Column): Column;
+
+  // optional methods. subclasses may throw an error if unable to support
+  // i may revisit in the future but all of the other options seem terrible
   abstract categories(): string[];
   abstract mean(): number;
   abstract sum(): number;
-  abstract fromIndexes(indexes: number[]): Column;
-  abstract bind(bottom: Column): Column;
 }
