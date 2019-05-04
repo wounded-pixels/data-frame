@@ -53,4 +53,24 @@ export class CategoricalColumn extends Column {
     const bottomCC = bottom as CategoricalColumn;
     return new CategoricalColumn(name, this.values().concat(bottomCC.values()));
   }
+
+  static parse(
+    name: string,
+    rawValues: (string | number | null | undefined)[]
+  ): CategoricalColumn {
+    const values = rawValues.map(raw => {
+      if (raw === null || raw === undefined) {
+        return null;
+      }
+
+      const asString = ('' + raw).trim();
+
+      if (asString.length === 0) {
+        return null;
+      }
+
+      return asString;
+    });
+    return new CategoricalColumn(name, values);
+  }
 }

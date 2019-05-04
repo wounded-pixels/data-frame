@@ -56,6 +56,8 @@ export class NumericalColumn extends Column {
     return this.theValues.filter(value => !!value).length;
   }
 
+  // returns a NumericalColumn unless less than acceptanceRatio of non-empty values are non-numeric
+  // it can be sparse, but it must be at least acceptanceRatio numbers
   static parse(
     name: string,
     rawValues: (string | number | null | undefined)[],

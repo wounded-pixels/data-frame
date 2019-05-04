@@ -27,10 +27,28 @@ test('sparse', () => {
     null,
     'red',
   ]);
+
   expect(sparseColumn.values().join()).toEqual('red,blue,,red');
+  expect(sparseColumn.values()[2]).toBeNull();
 
   const firstThirdFourth = sparseColumn.fromRowIndexes([0, 2, 3]);
   expect(firstThirdFourth.values().join()).toEqual('red,,red');
+});
+
+test('parse from strings small', () => {
+  const raw = [
+    'red',
+    'blue',
+    '',
+    'red',
+    null,
+    'green',
+    'red',
+    undefined,
+    'blue',
+  ];
+  const column = CategoricalColumn.parse('from raw', raw);
+  expect(column.values().join()).toEqual('red,blue,,red,,green,red,,blue');
 });
 
 test('no mean', () => {
