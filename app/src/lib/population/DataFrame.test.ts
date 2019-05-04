@@ -118,5 +118,3 @@ test('row bind', () => {
   expect(combined.dimensions()).toEqual({ rows: 4, columns: 3 });
   expect(combined.column('height').mean()).toEqual((72 + 68 + 77 + 78) / 4);
 });
-
-// TODO: Add error cases

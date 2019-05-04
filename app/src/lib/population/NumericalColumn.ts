@@ -55,4 +55,35 @@ export class NumericalColumn extends Column {
   private nonNullLength(): number {
     return this.theValues.filter(value => !!value).length;
   }
+
+  static parse(
+    name: string,
+    rawValues: (string | number | null | undefined)[],
+    acceptanceRatio: number = 0.8
+  ): NumericalColumn | null {
+    let missingCount = 0;
+    const values = rawValues.map(raw => {
+      if (raw === null || raw === undefined) {
+        missingCount++;
+        return null;
+      }
+
+      if (('' + raw).trim().length === 0) {
+        missingCount++;
+        return null;
+      }
+
+      return parseFloat('' + raw);
+    });
+
+    const missingAndBadCount = values.filter(
+      value => !isFinite(value as number)
+    ).length;
+    const goodCount = values.length - missingAndBadCount;
+    const badCount = missingAndBadCount - missingCount;
+    const goodRatio = goodCount / (goodCount + badCount);
+    return goodRatio > acceptanceRatio
+      ? new NumericalColumn(name, values)
+      : null;
+  }
 }

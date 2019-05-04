@@ -11,8 +11,6 @@ export class DataFrame {
   private width: number = 0;
   private columnMap: { [key: string]: Column } = {};
 
-  // TODO need base Column class? how to handle things that have numerical methods vs not?
-
   constructor(columns: Column[]) {
     this.height = columns[0].length();
 
