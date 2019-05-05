@@ -76,11 +76,15 @@ export class DataFrame {
     return new DataFrame(combinedColumns);
   }
 
-  static parseCSV(csv: string): DataFrame {
-    return DataFrameParser.parse(csv, ',');
+  static parseCSV(csv: string, columnNames: string[] = []): DataFrame {
+    return DataFrameParser.parse(csv, ',', columnNames);
   }
 
-  static parse(raw: string, delimiter: ParseDelimiter): DataFrame {
-    return DataFrameParser.parse(raw, delimiter);
+  static parse(
+    raw: string,
+    delimiter: ParseDelimiter,
+    columnNames: string[] = []
+  ): DataFrame {
+    return DataFrameParser.parse(raw, delimiter, columnNames);
   }
 }

@@ -24,8 +24,7 @@ DataFrame
 
 - Read from csv
   - basic with headers in source X
-  - headers from client code
-  - generate headers
+  - headers from client code X
 - Ability to merge multiple data frames to form one large set with differences
 - Shuffle - maybe sample wo replacement
 - Calculate column (mutate?)
