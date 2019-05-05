@@ -5,6 +5,7 @@ import { createRange, removeValue } from '../util/arrays';
 import { NumericalColumn } from './NumericalColumn';
 import { Column } from './Column';
 import { CategoricalColumn } from './CategoricalColumn';
+import { DataFrameParser, ParseDelimiter } from './DataFrameParser';
 
 export class DataFrame {
   private readonly height: number;
@@ -12,7 +13,7 @@ export class DataFrame {
   private columnMap: { [key: string]: Column } = {};
 
   constructor(columns: Column[]) {
-    this.height = columns[0].length();
+    this.height = columns.length > 0 ? columns[0].length() : 0;
 
     columns.forEach(column => {
       this.columnMap[column.name()] = column;
@@ -73,5 +74,13 @@ export class DataFrame {
     );
 
     return new DataFrame(combinedColumns);
+  }
+
+  static parseCSV(csv: string): DataFrame {
+    return DataFrameParser.parse(csv, ',');
+  }
+
+  static parse(raw: string, delimiter: ParseDelimiter): DataFrame {
+    return DataFrameParser.parse(raw, delimiter);
   }
 }

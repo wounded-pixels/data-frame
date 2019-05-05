@@ -16,6 +16,20 @@ const heightsWeightsGenders = new DataFrame([
   genderColumn,
 ]);
 
+const csv = `
+  gender, height, weight
+  m, 72, 195
+  f, 65, 110
+  m,70,190
+  `;
+
+const csvWithMissing = `
+  gender, height, weight
+  m, 72, 195
+  f, 65
+  m,70,190
+  `;
+
 test('construction', () => {
   const dimensions = heightsWeightsGenders.dimensions();
   expect(dimensions).toEqual({ rows: 3, columns: 3 });
@@ -39,6 +53,11 @@ test('uneven columns in construction', () => {
     new DataFrame([shortColumn, longColumn]);
   };
   expect(badConstruction).toThrow(Error);
+});
+
+test('silly construction', () => {
+  const empty = new DataFrame([]);
+  expect(empty.dimensions()).toEqual({ rows: 0, columns: 0 });
 });
 
 test('sample with replacement', () => {
@@ -117,4 +136,58 @@ test('row bind', () => {
   );
   expect(combined.dimensions()).toEqual({ rows: 4, columns: 3 });
   expect(combined.column('height').mean()).toEqual((72 + 68 + 77 + 78) / 4);
+});
+
+test('parse csv perfect data', () => {
+  const df = DataFrame.parseCSV(csv);
+  expect(df.dimensions().columns).toEqual(3);
+  expect(df.dimensions().rows).toEqual(3);
+  expect(
+    df
+      .column('gender')
+      .values()
+      .join()
+  ).toEqual('m,f,m');
+  expect(
+    df
+      .column('height')
+      .values()
+      .join()
+  ).toEqual('72,65,70');
+  expect(
+    df
+      .column('weight')
+      .values()
+      .join()
+  ).toEqual('195,110,190');
+});
+
+test('parse perfect data', () => {
+  const df = DataFrame.parse(csv, ',');
+  expect(df.dimensions().columns).toEqual(3);
+  expect(df.dimensions().rows).toEqual(3);
+});
+
+test('parse csv missing data', () => {
+  const df = DataFrame.parseCSV(csvWithMissing);
+  expect(df.dimensions().columns).toEqual(3);
+  expect(df.dimensions().rows).toEqual(3);
+  expect(
+    df
+      .column('gender')
+      .values()
+      .join()
+  ).toEqual('m,f,m');
+  expect(
+    df
+      .column('height')
+      .values()
+      .join()
+  ).toEqual('72,65,70');
+  expect(
+    df
+      .column('weight')
+      .values()
+      .join()
+  ).toEqual('195,,190');
 });

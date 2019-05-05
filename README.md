@@ -13,7 +13,7 @@ Columns
 - Categorical column X
 - Text column
 - Ordinal column
-- Read from array and deduce type
+- Read from array and deduce type X
 
 Population
 
@@ -23,6 +23,9 @@ Population
 DataFrame
 
 - Read from csv
+  - basic with headers in source X
+  - headers from client code
+  - generate headers
 - Ability to merge multiple data frames to form one large set with differences
 - Shuffle - maybe sample wo replacement
 - Calculate column (mutate?)
