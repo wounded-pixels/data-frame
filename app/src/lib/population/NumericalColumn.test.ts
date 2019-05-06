@@ -61,6 +61,27 @@ test('override of permissible ', () => {
   expect(column.mean()).toBe(36 / 8);
 });
 
+test('basic descriptive stats', () => {
+  const values = [1, 5, 2, 8, 9, 3, 4, 7, 6];
+  const column = new NumericalColumn('digits', values);
+  expect(column.min()).toBe(1);
+  expect(column.max()).toBe(9);
+
+  // TODO: match R? match pandas?
+  expect(column.percentile(0.25)).toBe(2);
+  expect(column.percentile(0.5)).toBe(5);
+  expect(column.median()).toBe(5);
+  expect(column.percentile(0.75)).toBe(7);
+});
+
+test('empty', () => {
+  const empty = new NumericalColumn('empty', []);
+
+  expect(empty.min()).toBeNull();
+  expect(empty.percentile(0.5)).toBeNull();
+  expect(empty.max()).toBeNull();
+});
+
 test('no categories', () => {
   const call = () => {
     column.categories();

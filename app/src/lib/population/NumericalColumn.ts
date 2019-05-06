@@ -1,11 +1,20 @@
 import { Column } from './Column';
+import { clamp } from '../util/math';
 
 export class NumericalColumn extends Column {
   private readonly theValues: (number | null)[];
+  private readonly sortedValues: number[];
 
   constructor(name: string, values: (number | null)[]) {
     super(name);
     this.theValues = values;
+
+    const justNumbers = this.theValues.filter(
+      value => value !== null
+    ) as number[];
+    this.sortedValues = justNumbers.sort((a: number, b: number) =>
+      Math.sign(a - b)
+    );
   }
 
   sum(): number {
@@ -38,6 +47,33 @@ export class NumericalColumn extends Column {
     });
 
     return new NumericalColumn(this.name(), newValues);
+  }
+
+  min(): number | null {
+    return this.sortedValues[0] || null;
+  }
+
+  max(): number | null {
+    return this.sortedValues[this.sortedValues.length - 1] || null;
+  }
+
+  median(): number | null {
+    return this.percentile(0.5);
+  }
+
+  percentile(rawRatio: number): number | null {
+    if (this.sortedValues.length === 0) {
+      return null;
+    }
+
+    const ratio = clamp(0, 1, rawRatio);
+
+    // one based for now
+    const decimalIndex = ratio * (this.sortedValues.length + 1);
+    const wholeIndex = Math.floor(decimalIndex);
+
+    // zero based at the end
+    return this.sortedValues[wholeIndex - 1];
   }
 
   bind(bottom: Column): Column {

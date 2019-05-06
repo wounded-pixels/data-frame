@@ -28,12 +28,16 @@ DataFrame
 - Ability to merge multiple data frames to form one large set with differences
 - Shuffle - maybe sample wo replacement
 - Calculate column (mutate?)
-- Group by - Groups
+- Group by - stats by group
+
+- Descriptive stats
 
   - size
   - mean
   - max
   - min
+  - median
+  - percentiles Need more here. So many ways...
   - etc
 
 - Selections
