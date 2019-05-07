@@ -67,11 +67,18 @@ test('basic descriptive stats', () => {
   expect(column.min()).toBe(1);
   expect(column.max()).toBe(9);
 
-  // TODO: match R? match pandas?
-  expect(column.percentile(0.25)).toBe(2);
+  expect(column.percentile(0.25)).toBe(3);
   expect(column.percentile(0.5)).toBe(5);
   expect(column.median()).toBe(5);
   expect(column.percentile(0.75)).toBe(7);
+});
+
+test('compare with Numpy', () => {
+  const values = [1, 5, 9, 12, 13, 14, 20, 21, 23];
+  const column = new NumericalColumn('values', values);
+  expect(column.percentile(0.25)).toBe(9);
+  expect(column.percentile(0.5)).toBe(13);
+  expect(column.percentile(0.75)).toBe(20);
 });
 
 test('empty', () => {
