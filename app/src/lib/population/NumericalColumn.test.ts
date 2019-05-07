@@ -30,7 +30,7 @@ test('sparse - mean should ignore nulls', () => {
 });
 
 test('from strings', () => {
-  const raw = ['1', '1.12', '', '1e2', null, 5, 'a', , '4'];
+  const raw = ['1', '1.12', '', '1e2', null, 5, 'a', undefined, '4'];
   const column = NumericalColumn.parse('from raw', raw) as NumericalColumn;
   expect(column.mean()).toBe((1 + 1.12 + 100 + 5 + 4) / 5);
   expect(column.values()[2]).toBeNull();

@@ -2,9 +2,7 @@
 import random from 'random';
 
 import { createRange, removeValue } from '../util/arrays';
-import { NumericalColumn } from './NumericalColumn';
 import { Column } from './Column';
-import { CategoricalColumn } from './CategoricalColumn';
 import { DataFrameParser, ParseDelimiter } from './DataFrameParser';
 
 export class DataFrame {
