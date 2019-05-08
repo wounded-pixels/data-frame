@@ -1,6 +1,7 @@
 import { NumericalColumn } from './NumericalColumn';
 import { DataFrame } from './DataFrame';
 import { CategoricalColumn } from './CategoricalColumn';
+import { TextColumn } from './TextColumn';
 
 const columnAsString = (df: DataFrame, columnName: string) => {
   return df
@@ -9,6 +10,7 @@ const columnAsString = (df: DataFrame, columnName: string) => {
     .join();
 };
 
+const nameColumn = new TextColumn('name', ['Fred', 'Barney', 'Wilma']);
 const heightColumn = new NumericalColumn('height', [72, 68, 61]);
 const weightColumn = new NumericalColumn('weight', [230, 190, 101]);
 const genderColumn = new CategoricalColumn('gender', [
@@ -18,6 +20,7 @@ const genderColumn = new CategoricalColumn('gender', [
 ]);
 
 const heightsWeightsGenders = new DataFrame([
+  nameColumn,
   heightColumn,
   weightColumn,
   genderColumn,
@@ -46,7 +49,7 @@ const csvNoHeader = `
 
 test('construction', () => {
   const dimensions = heightsWeightsGenders.dimensions();
-  expect(dimensions).toEqual({ rows: 3, columns: 3 });
+  expect(dimensions).toEqual({ rows: 3, columns: 4 });
   expect(heightsWeightsGenders.column('height').mean()).toBe(
     (72 + 68 + 61) / 3
   );
@@ -78,7 +81,7 @@ test('sample with replacement', () => {
   const sampleSize = 10000;
   const swr = heightsWeightsGenders.sampleWithReplacement(sampleSize);
 
-  expect(swr.dimensions()).toEqual({ rows: sampleSize, columns: 3 });
+  expect(swr.dimensions()).toEqual({ rows: sampleSize, columns: 4 });
   expect(swr.column('height').mean()).toBeCloseTo(heightColumn.mean(), 0);
 
   const femaleCount = swr
@@ -99,7 +102,7 @@ test('sample without replacement', () => {
   const reps = 10000;
   for (let ctr = 0; ctr < reps; ctr++) {
     const sample = heightsWeightsGenders.sampleWithoutReplacement(3);
-    expect(sample.dimensions()).toEqual({ rows: 3, columns: 3 });
+    expect(sample.dimensions()).toEqual({ rows: 3, columns: 4 });
 
     const heightValues = sample.column('height').values();
     const genderValues = sample.column('gender').values();
@@ -134,22 +137,36 @@ test('too many without replacement', () => {
 });
 
 test('row bind', () => {
+  const names1 = new TextColumn('name', ['Fred', 'Barney']);
   const heights1 = new NumericalColumn('height', [72, 68]);
   const weights1 = new NumericalColumn('weight', [230, 190]);
   const genders1 = new CategoricalColumn('gender', ['male', 'male']);
-  const heightsWeightsGenders1 = new DataFrame([heights1, weights1, genders1]);
+  const heightsWeightsGenders1 = new DataFrame([
+    names1,
+    heights1,
+    weights1,
+    genders1,
+  ]);
 
+  const names2 = new TextColumn('name', ['Wilma', 'Betty']);
   const heights2 = new NumericalColumn('height', [77, 78]);
   const weights2 = new NumericalColumn('weight', [268, 261]);
   const genders2 = new CategoricalColumn('gender', ['female', 'female']);
-  const heightsWeightsGenders2 = new DataFrame([weights2, heights2, genders2]);
+  const heightsWeightsGenders2 = new DataFrame([
+    names2,
+    weights2,
+    heights2,
+    genders2,
+  ]);
 
   const combined = DataFrame.rowBind(
     heightsWeightsGenders1,
     heightsWeightsGenders2
   );
-  expect(combined.dimensions()).toEqual({ rows: 4, columns: 3 });
+  expect(combined.dimensions()).toEqual({ rows: 4, columns: 4 });
   expect(combined.column('height').mean()).toEqual((72 + 68 + 77 + 78) / 4);
+  expect(combined.column('name').values()[2]).toBe('Wilma');
+  expect(combined.column('gender').values()[2]).toBe('female');
 });
 
 test('parse csv perfect data', () => {

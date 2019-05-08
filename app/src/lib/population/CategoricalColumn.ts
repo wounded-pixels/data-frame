@@ -51,7 +51,10 @@ export class CategoricalColumn extends Column {
 
   bind(bottom: Column): Column {
     const bottomCC = bottom as CategoricalColumn;
-    return new CategoricalColumn(name, this.values().concat(bottomCC.values()));
+    return new CategoricalColumn(
+      this.name(),
+      this.values().concat(bottomCC.values())
+    );
   }
 
   static parse(
