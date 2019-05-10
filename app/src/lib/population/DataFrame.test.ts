@@ -27,24 +27,24 @@ const heightsWeightsGenders = new DataFrame([
 ]);
 
 const csv = `
-  gender, height, weight
-  m, 72, 195
-  f, 65, 110
-  m,70,190
+  name, gender,height, weight
+  fred,m, 72, 195
+  wilma,f, 65, 110
+  barney, m,70,190
   `;
 
 const csvWithMissing = `
-  gender, height, weight
-  m, 72, 195
-  f, 65
-  m,70,190
+  name,gender, height, weight
+  fred,m, 72, 195
+  wilma,f, 65
+  barney,m,70,190
   `;
 
 const csvNoHeader = `
 
-  m, 72, 195
-  f, 65
-  m,70,190
+  fred,m, 72, 195
+  wilma,f, 65
+  barney,m,70,190
   `;
 
 test('construction', () => {
@@ -171,8 +171,9 @@ test('row bind', () => {
 
 test('parse csv perfect data', () => {
   const df = DataFrame.parseCSV(csv);
-  expect(df.dimensions().columns).toEqual(3);
+  expect(df.dimensions().columns).toEqual(4);
   expect(df.dimensions().rows).toEqual(3);
+  expect(columnAsString(df, 'name')).toEqual('fred,wilma,barney');
   expect(columnAsString(df, 'gender')).toEqual('m,f,m');
   expect(columnAsString(df, 'height')).toEqual('72,65,70');
   expect(columnAsString(df, 'weight')).toEqual('195,110,190');
@@ -180,23 +181,30 @@ test('parse csv perfect data', () => {
 
 test('parse perfect data', () => {
   const df = DataFrame.parse(csv, ',');
-  expect(df.dimensions().columns).toEqual(3);
+  expect(df.dimensions().columns).toEqual(4);
   expect(df.dimensions().rows).toEqual(3);
 });
 
 test('parse csv missing data', () => {
   const df = DataFrame.parseCSV(csvWithMissing);
-  expect(df.dimensions().columns).toEqual(3);
+  expect(df.dimensions().columns).toEqual(4);
   expect(df.dimensions().rows).toEqual(3);
+  expect(columnAsString(df, 'name')).toEqual('fred,wilma,barney');
   expect(columnAsString(df, 'gender')).toEqual('m,f,m');
   expect(columnAsString(df, 'height')).toEqual('72,65,70');
   expect(columnAsString(df, 'weight')).toEqual('195,,190');
 });
 
 test('parse provided header', () => {
-  const df = DataFrame.parse(csvNoHeader, ',', ['Gender', 'Height', 'Weight']);
-  expect(df.dimensions().columns).toEqual(3);
+  const df = DataFrame.parse(csvNoHeader, ',', [
+    'Name',
+    'Gender',
+    'Height',
+    'Weight',
+  ]);
+  expect(df.dimensions().columns).toEqual(4);
   expect(df.dimensions().rows).toEqual(3);
+  expect(columnAsString(df, 'Name')).toEqual('fred,wilma,barney');
   expect(df.column('Height').mean()).toBe((72 + 65 + 70) / 3);
   expect(df.column('Weight').mean()).toBe((195 + 190) / 2);
 });
