@@ -68,9 +68,19 @@ export class NumericalColumn extends Column {
 
     const ratio = clamp(0, 1, rawRatio);
 
-    const decimalIndex = ratio * (this.sortedValues.length - 1);
-    const wholeIndex = Math.ceil(decimalIndex);
-    return this.sortedValues[wholeIndex];
+    if (this.sortedValues.length % 2 === 0) {
+      // even length
+      const decimalIndex = ratio * this.sortedValues.length;
+      const wholeIndex = Math.round(decimalIndex);
+      return (
+        (this.sortedValues[wholeIndex] + this.sortedValues[wholeIndex - 1]) / 2
+      );
+    } else {
+      // odd length
+      const decimalIndex = ratio * (this.sortedValues.length - 1);
+      const wholeIndex = Math.ceil(decimalIndex);
+      return this.sortedValues[wholeIndex];
+    }
   }
 
   bind(bottom: Column): Column {

@@ -71,14 +71,26 @@ test('basic descriptive stats', () => {
   expect(column.percentile(0.5)).toBe(5);
   expect(column.median()).toBe(5);
   expect(column.percentile(0.75)).toBe(7);
+
+  values.push(10);
+  const evenNumberOfValues = new NumericalColumn('digits', values);
+  expect(evenNumberOfValues.percentile(0.5)).toBe(5.5);
 });
 
-test('compare with Numpy', () => {
+test('percentile length odd', () => {
   const values = [1, 5, 9, 12, 13, 14, 20, 21, 23];
   const column = new NumericalColumn('values', values);
   expect(column.percentile(0.25)).toBe(9);
   expect(column.percentile(0.5)).toBe(13);
   expect(column.percentile(0.75)).toBe(20);
+});
+
+test('percentile length even', () => {
+  const values = [1, 5, 9, 12, 13, 14, 20, 21, 23, 31];
+  const column = new NumericalColumn('values', values);
+  expect(column.percentile(0.25)).toBe((9 + 12) / 2);
+  expect(column.percentile(0.5)).toBe(13.5);
+  expect(column.percentile(0.75)).toBe(22);
 });
 
 test('empty', () => {
