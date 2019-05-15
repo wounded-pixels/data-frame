@@ -14,31 +14,45 @@ Columns
 - Text column X
 - parse for text vs categorical X
 - Ordinal column
+- Date / time column
+
+DataFrameParser - Read from csv
+
+- basic with headers in csv X
+- headers from client code X
+- refactor with per column hints
+- rename over top of headers in csv
+- handle blank lines
+- test vs dplyr
+- test vs Pandas
+
+DataFrame descriptive stats
+
+- dimensions X
+
+Column descriptive stats
+
+- mean X
+- max X
+- min X
+- median X
+- percentiles X
+- Other percentiles? Need more here. So many ways...
+- bins
+
+Summaries
+
+- summary object per column
+- summary object for data frame
 
 Population
 
 - Specify category for population X
 - Specify mix of categories. Map of numbers? 1,2 => 1/3, 2/3
-
-DataFrame
-
-- Read from csv
-  - basic with headers in source X
-  - headers from client code X
 - Ability to merge multiple data frames to form one large set with differences
 - Shuffle - maybe sample wo replacement
 - Calculate column (mutate?)
 - Group by - stats by group
-
-- Descriptive stats
-
-  - size
-  - mean
-  - max
-  - min
-  - median
-  - percentiles Need more here. So many ways...
-  - etc
 
 - Selections
   - select(predicate) returns a selection. underlying is not changed
