@@ -3,7 +3,11 @@ import random from 'random';
 
 import { createRange, removeValue } from '../util/arrays';
 import { Column } from './Column';
-import { DataFrameParser, ParseDelimiter } from './DataFrameParser';
+import {
+  DataFrameParser,
+  ParseDelimiter,
+  ParsingHints,
+} from './DataFrameParser';
 
 export class DataFrame {
   private readonly height: number;
@@ -74,15 +78,15 @@ export class DataFrame {
     return new DataFrame(combinedColumns);
   }
 
-  static parseCSV(csv: string, columnNames: string[] = []): DataFrame {
-    return DataFrameParser.parse(csv, ',', columnNames);
+  static parseCSV(csv: string, parsingHints: ParsingHints = {}): DataFrame {
+    return DataFrameParser.parse(csv, ',', parsingHints);
   }
 
   static parse(
     raw: string,
     delimiter: ParseDelimiter,
-    columnNames: string[] = []
+    parsingHints: ParsingHints = {}
   ): DataFrame {
-    return DataFrameParser.parse(raw, delimiter, columnNames);
+    return DataFrameParser.parse(raw, delimiter, parsingHints);
   }
 }

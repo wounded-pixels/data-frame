@@ -11,9 +11,9 @@ Columns
 
 - Base class for columns - name, length, values X
 - Categorical column X
-- Text column
+- Text column X
+- parse for text vs categorical X
 - Ordinal column
-- Read from array and deduce type X
 
 Population
 
