@@ -20,9 +20,9 @@ DataFrameParser - Read from csv
 
 - basic with headers in csv X
 - headers from client code X
-- refactor with per column hints
-- rename over top of headers in csv
-- handle blank lines
+- refactor with per column hints X
+- rename over top of headers in csv X
+- handle blank lines X
 - test vs dplyr
 - test vs Pandas
 

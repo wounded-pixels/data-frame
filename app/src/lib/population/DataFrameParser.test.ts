@@ -1,8 +1,10 @@
 import { DataFrame } from './DataFrame';
+import { Type } from './DataFrameParser';
 
 const csv = `
   name, gender,height, weight
   fred,m, 72, 195
+  
   wilma,f, 65, 110
   barney, m,70,190
   `;
@@ -70,7 +72,9 @@ test('parse provided header', () => {
 });
 
 test('parse force text column', () => {
-  const df = DataFrame.parseCSV(csv, { columnTypes: { name: 'text' } });
+  const df = DataFrame.parseCSV(csv, {
+    columns: { name: { type: Type.Text } },
+  });
   expect(df.dimensions().columns).toEqual(4);
   expect(df.dimensions().rows).toEqual(3);
   expect(columnAsString(df, 'name')).toEqual('fred,wilma,barney');
@@ -78,4 +82,16 @@ test('parse force text column', () => {
   expect(columnAsString(df, 'height')).toEqual('72,65,70');
   expect(columnAsString(df, 'weight')).toEqual('195,110,190');
   expect(() => df.column('name').categories()).toThrow(Error);
+});
+
+test('parse rename headers', () => {
+  const df = DataFrame.parse(csv, ',', {
+    replacementNames: ['Name', 'Gender', 'Height', 'Weight'],
+  });
+  expect(df.dimensions().columns).toEqual(4);
+  expect(df.dimensions().rows).toEqual(3);
+  expect(columnAsString(df, 'Name')).toEqual('fred,wilma,barney');
+  expect(df.column('Name').categories().length).toBe(3);
+  expect(df.column('Height').mean()).toBe((72 + 65 + 70) / 3);
+  expect(df.column('Weight').mean()).toBe((195 + 110 + 190) / 3);
 });
