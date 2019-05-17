@@ -42,8 +42,8 @@ Column descriptive stats
 
 Summaries
 
-- summary object per column
-- summary object for data frame
+- summary object per column X
+- summary object for data frame X
 
 Population
 

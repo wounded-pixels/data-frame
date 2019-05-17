@@ -1,4 +1,4 @@
-import { Column } from './Column';
+import { Column, ColumnSummary } from './Column';
 
 export class CategoricalColumn extends Column {
   private readonly indexes: (number | null)[] = [];
@@ -55,6 +55,12 @@ export class CategoricalColumn extends Column {
       this.name(),
       this.values().concat(bottomCC.values())
     );
+  }
+
+  summary(): ColumnSummary {
+    const summary = super.summary();
+    summary.categories = this.categories();
+    return summary;
   }
 
   static parse(

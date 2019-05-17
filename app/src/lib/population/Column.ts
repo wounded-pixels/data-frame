@@ -1,3 +1,11 @@
+export type ColumnSummary = {
+  categories: string[] | null;
+  name: string;
+  max: number | null;
+  mean: number | null;
+  min: number | null;
+};
+
 export abstract class Column {
   private readonly aName: string;
 
@@ -7,6 +15,16 @@ export abstract class Column {
 
   name(): string {
     return this.aName;
+  }
+
+  summary(): ColumnSummary {
+    return {
+      name: this.name(),
+      categories: null,
+      max: null,
+      min: null,
+      mean: null,
+    };
   }
 
   // subclasses must implement these required methods

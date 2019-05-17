@@ -140,3 +140,30 @@ test('row bind', () => {
   expect(combined.column('name').values()[2]).toBe('Wilma');
   expect(combined.column('gender').values()[2]).toBe('female');
 });
+
+test('summary', () => {
+  const summary = heightsWeightsGenders.summary();
+  expect(summary.columns.length).toBe(4);
+
+  expect(summary.columns[0]).toEqual({
+    name: 'name',
+    categories: null,
+    max: null,
+    mean: null,
+    min: null,
+  });
+  expect(summary.columns[1]).toEqual({
+    name: 'height',
+    categories: null,
+    max: 72,
+    mean: (72 + 68 + 61) / 3,
+    min: 61,
+  });
+  expect(summary.columns[3]).toEqual({
+    name: 'gender',
+    categories: ['female', 'male'],
+    max: null,
+    mean: null,
+    min: null,
+  });
+});

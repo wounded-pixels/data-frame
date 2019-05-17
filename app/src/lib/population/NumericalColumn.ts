@@ -1,4 +1,4 @@
-import { Column } from './Column';
+import { Column, ColumnSummary } from './Column';
 import { clamp } from '../util/math';
 
 export class NumericalColumn extends Column {
@@ -93,6 +93,15 @@ export class NumericalColumn extends Column {
 
   categories(): string[] {
     throw new Error('no categories for Numerical column');
+  }
+
+  summary(): ColumnSummary {
+    const summary = super.summary();
+    summary.max = this.max();
+    summary.min = this.min();
+    summary.mean = this.mean();
+
+    return summary;
   }
 
   private nonNullLength(): number {

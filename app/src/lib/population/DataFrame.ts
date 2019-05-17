@@ -68,6 +68,14 @@ export class DataFrame {
     return { rows: this.height, columns: this.width };
   }
 
+  summary() {
+    const columns = Object.values(this.columnMap).map(column => {
+      return column.summary();
+    });
+
+    return { columns };
+  }
+
   static rowBind(top: DataFrame, bottom: DataFrame): DataFrame {
     const combinedColumns: Column[] = Object.values(top.columnMap).map(
       column => {
