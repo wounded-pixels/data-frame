@@ -29,7 +29,7 @@ export abstract class Column {
 
   // subclasses must implement these required methods
   abstract length(): number;
-  abstract values(): (number | string | null)[];
+  abstract values(): (number | string | Date | null)[];
   abstract fromRowIndexes(indexes: number[]): Column;
   abstract bind(bottom: Column): Column;
 
@@ -38,4 +38,7 @@ export abstract class Column {
   abstract categories(): string[];
   abstract mean(): number;
   abstract sum(): number;
+
+  // TODO: add min and max with tests in DataFrame.test - Dates too
+  // TODO: add median and percentile with tests in DataFrame.test - Dates too
 }
