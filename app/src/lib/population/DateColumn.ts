@@ -2,6 +2,7 @@ import { Column } from './Column';
 
 export class DateColumn extends Column {
   private readonly timesInMilliseconds: (number | null)[];
+  private readonly sortedTimesInMilliseconds: number[];
 
   constructor(name: string, values: (Date | number | null)[]) {
     super(name);
@@ -12,6 +13,13 @@ export class DateColumn extends Column {
 
       return typeof value === 'object' ? value.getTime() : value;
     });
+
+    const justNumbers = this.timesInMilliseconds.filter(
+      value => value !== null
+    ) as number[];
+    this.sortedTimesInMilliseconds = justNumbers.sort((a: number, b: number) =>
+      Math.sign(a - b)
+    );
   }
 
   /** copy of values */
@@ -36,6 +44,22 @@ export class DateColumn extends Column {
     });
 
     return new DateColumn(this.name(), newTimes);
+  }
+
+  min(): Date | null {
+    return this.sortedTimesInMilliseconds[0]
+      ? new Date(this.sortedTimesInMilliseconds[0])
+      : null;
+  }
+
+  max(): Date | null {
+    return this.sortedTimesInMilliseconds.length > 0
+      ? new Date(
+          this.sortedTimesInMilliseconds[
+            this.sortedTimesInMilliseconds.length - 1
+          ]
+        )
+      : null;
   }
 
   mean(): number {

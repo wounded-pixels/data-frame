@@ -18,6 +18,12 @@ test('simple', () => {
   expect(dateColumn.length()).toBe(5);
   const firstDate = dateColumn.values()[0] as Date;
   expect(firstDate.getFullYear()).toBe(2019);
+
+  const minDate = dateColumn.min() as Date;
+  expect(minDate.getFullYear()).toBe(2014);
+
+  const maxDate = dateColumn.max() as Date;
+  expect(maxDate.getFullYear()).toBe(2019);
 });
 
 test('from indexes', () => {
@@ -33,6 +39,12 @@ test('from indexes', () => {
 test('bind', () => {
   const combinedColumn = dateColumn.bind(otherColumn);
   expect(combinedColumn.length()).toBe(8);
+});
+
+test('empty', () => {
+  const emptyDateColumn = new DateColumn('empty', [null, null, null]);
+  expect(emptyDateColumn.min()).toBeNull();
+  expect(emptyDateColumn.max()).toBeNull();
 });
 
 test('no categories', () => {

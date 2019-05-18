@@ -38,6 +38,8 @@ export abstract class Column {
   abstract categories(): string[];
   abstract mean(): number;
   abstract sum(): number;
+  abstract min(): number | Date | null;
+  abstract max(): number | Date | null;
 
   // TODO: add min and max with tests in DataFrame.test - Dates too
   // TODO: add median and percentile with tests in DataFrame.test - Dates too

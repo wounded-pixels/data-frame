@@ -26,6 +26,14 @@ export class CategoricalColumn extends Column {
     throw new Error('no sum for Categorical column');
   }
 
+  min(): number {
+    throw new Error('no min for Categorical column');
+  }
+
+  max(): number {
+    throw new Error('no max for Categorical column');
+  }
+
   /** copy of values */
   values(): (string | null)[] {
     return this.indexes.map(index => {

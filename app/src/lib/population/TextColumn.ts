@@ -34,6 +34,14 @@ export class TextColumn extends Column {
     throw new Error('no mean for Text column');
   }
 
+  min(): number {
+    throw new Error('no min for Text column');
+  }
+
+  max(): number {
+    throw new Error('no max for Text column');
+  }
+
   sum(): number {
     throw new Error('no sum for Text column');
   }

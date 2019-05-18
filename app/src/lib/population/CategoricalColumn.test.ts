@@ -52,17 +52,25 @@ test('parse from strings small', () => {
 });
 
 test('no mean', () => {
-  const callMean = () => {
+  expect(() => {
     column.mean();
-  };
-
-  expect(callMean).toThrow(Error);
+  }).toThrow(Error);
 });
 
 test('no sum', () => {
-  const callSum = () => {
+  expect(() => {
     column.sum();
-  };
+  }).toThrow(Error);
+});
 
-  expect(callSum).toThrow(Error);
+test('no min', () => {
+  expect(() => {
+    column.min();
+  }).toThrow(Error);
+});
+
+test('no max', () => {
+  expect(() => {
+    column.max();
+  }).toThrow(Error);
 });

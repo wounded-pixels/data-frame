@@ -15,6 +15,8 @@ Columns
 - parse for text vs categorical X
 - Ordinal column
 - Date / time column
+  - different formats
+  - specify format in column hint
 
 DataFrameParser - Read from csv
 
