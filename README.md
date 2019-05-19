@@ -14,9 +14,21 @@ Columns
 - Text column X
 - parse for text vs categorical X
 - Ordinal column
+- median and percentile
 - Date / time column
+
   - different formats
   - specify format in column hint
+
+- mutate a column in place pass function Examples:
+- Replace negative with null
+- To int
+- Limit precision
+
+Mutate data frame by creating a new column from a function NEED MORE THOUGHT. Real world exercises from dplyr
+
+- createColumn('adjusted weight', (row) => row.weight/row.height)
+- include overall info createColumn('height ratio', (row, summary) => row.height/columns['height'].max())
 
 DataFrameParser - Read from csv
 
@@ -62,6 +74,7 @@ Population
   - mutate a selection? set a column value?
     df.select((row) => row.height < 0).mutate(row => row.height = null)
   - Selection asDataFrame
+  - ObservableSelection? onChange callbacks?
 - Projection - specify columns
   - by name
   - by predicate

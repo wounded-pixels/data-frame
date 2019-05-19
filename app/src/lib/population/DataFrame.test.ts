@@ -2,6 +2,7 @@ import { NumericalColumn } from './NumericalColumn';
 import { DataFrame } from './DataFrame';
 import { CategoricalColumn } from './CategoricalColumn';
 import { TextColumn } from './TextColumn';
+import { DateColumn } from './DateColumn';
 
 const nameColumn = new TextColumn('name', ['Fred', 'Barney', 'Wilma']);
 const heightColumn = new NumericalColumn('height', [72, 68, 61]);
@@ -11,17 +12,23 @@ const genderColumn = new CategoricalColumn('gender', [
   'male',
   'female',
 ]);
+const birthDateColumn = new DateColumn('birth date', [
+  new Date(1951, 3, 13),
+  new Date(1955, 4, 5),
+  null,
+]);
 
 const heightsWeightsGenders = new DataFrame([
   nameColumn,
   heightColumn,
   weightColumn,
   genderColumn,
+  birthDateColumn,
 ]);
 
 test('construction', () => {
   const dimensions = heightsWeightsGenders.dimensions();
-  expect(dimensions).toEqual({ rows: 3, columns: 4 });
+  expect(dimensions).toEqual({ rows: 3, columns: 5 });
   expect(heightsWeightsGenders.column('height').mean()).toBe(
     (72 + 68 + 61) / 3
   );
@@ -53,7 +60,7 @@ test('sample with replacement', () => {
   const sampleSize = 10000;
   const swr = heightsWeightsGenders.sampleWithReplacement(sampleSize);
 
-  expect(swr.dimensions()).toEqual({ rows: sampleSize, columns: 4 });
+  expect(swr.dimensions()).toEqual({ rows: sampleSize, columns: 5 });
   expect(swr.column('height').mean()).toBeCloseTo(heightColumn.mean(), 0);
 
   const femaleCount = swr
@@ -74,7 +81,7 @@ test('sample without replacement', () => {
   const reps = 10000;
   for (let ctr = 0; ctr < reps; ctr++) {
     const sample = heightsWeightsGenders.sampleWithoutReplacement(3);
-    expect(sample.dimensions()).toEqual({ rows: 3, columns: 4 });
+    expect(sample.dimensions()).toEqual({ rows: 3, columns: 5 });
 
     const heightValues = sample.column('height').values();
     const genderValues = sample.column('gender').values();
@@ -141,9 +148,20 @@ test('row bind', () => {
   expect(combined.column('gender').values()[2]).toBe('female');
 });
 
+test('min and max', () => {
+  expect(heightsWeightsGenders.column('height').min()).toBe(61);
+  expect(heightsWeightsGenders.column('height').max()).toBe(72);
+
+  const minBirthDate = heightsWeightsGenders.column('birth date').min() as Date;
+  const maxBirthDate = heightsWeightsGenders.column('birth date').max() as Date;
+
+  expect(minBirthDate.getFullYear()).toBe(1951);
+  expect(maxBirthDate.getFullYear()).toBe(1955);
+});
+
 test('summary', () => {
   const summary = heightsWeightsGenders.summary();
-  expect(summary.columns.length).toBe(4);
+  expect(summary.columns.length).toBe(5);
 
   expect(summary.columns[0]).toEqual({
     name: 'name',

@@ -1,3 +1,4 @@
+// TODO: make readonly?
 export type ColumnSummary = {
   categories: string[] | null;
   name: string;
@@ -41,6 +42,5 @@ export abstract class Column {
   abstract min(): number | Date | null;
   abstract max(): number | Date | null;
 
-  // TODO: add min and max with tests in DataFrame.test - Dates too
   // TODO: add median and percentile with tests in DataFrame.test - Dates too
 }
