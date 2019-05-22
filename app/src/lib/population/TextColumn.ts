@@ -1,4 +1,4 @@
-import { Column } from './Column';
+import { Column, ColumnSummary } from './Column';
 
 export class TextColumn extends Column {
   private readonly theValues: (string | null)[];
@@ -28,6 +28,12 @@ export class TextColumn extends Column {
   bind(bottom: Column): Column {
     const bottomTC = bottom as TextColumn;
     return new TextColumn(this.name(), this.values().concat(bottomTC.values()));
+  }
+
+  summary(): ColumnSummary {
+    return {
+      name: this.name(),
+    };
   }
 
   mean(): number {

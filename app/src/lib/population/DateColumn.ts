@@ -1,4 +1,4 @@
-import { Column } from './Column';
+import { Column, ColumnSummary } from './Column';
 
 export class DateColumn extends Column {
   private readonly timesInMilliseconds: (number | null)[];
@@ -60,6 +60,14 @@ export class DateColumn extends Column {
           ]
         )
       : null;
+  }
+
+  summary(): ColumnSummary {
+    return {
+      name: this.name(),
+      min: this.min(),
+      max: this.max(),
+    };
   }
 
   mean(): number {

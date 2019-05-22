@@ -1,10 +1,9 @@
-// TODO: make readonly?
 export type ColumnSummary = {
-  categories: string[] | null;
   name: string;
-  max: number | null;
-  mean: number | null;
-  min: number | null;
+  readonly categories?: string[];
+  max?: number | Date | null;
+  mean?: number;
+  min?: number | Date | null;
 };
 
 export abstract class Column {
@@ -18,21 +17,12 @@ export abstract class Column {
     return this.aName;
   }
 
-  summary(): ColumnSummary {
-    return {
-      name: this.name(),
-      categories: null,
-      max: null,
-      min: null,
-      mean: null,
-    };
-  }
-
   // subclasses must implement these required methods
   abstract length(): number;
   abstract values(): (number | string | Date | null)[];
   abstract fromRowIndexes(indexes: number[]): Column;
   abstract bind(bottom: Column): Column;
+  abstract summary(): ColumnSummary;
 
   // optional methods. subclasses may throw an error if unable to support
   // i may revisit in the future but all of the other options seem terrible

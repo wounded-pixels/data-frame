@@ -96,12 +96,12 @@ export class NumericalColumn extends Column {
   }
 
   summary(): ColumnSummary {
-    const summary = super.summary();
-    summary.max = this.max();
-    summary.min = this.min();
-    summary.mean = this.mean();
-
-    return summary;
+    return {
+      name: this.name(),
+      min: this.min(),
+      mean: this.mean(),
+      max: this.max(),
+    };
   }
 
   private nonNullLength(): number {

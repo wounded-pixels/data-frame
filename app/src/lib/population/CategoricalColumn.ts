@@ -66,9 +66,10 @@ export class CategoricalColumn extends Column {
   }
 
   summary(): ColumnSummary {
-    const summary = super.summary();
-    summary.categories = this.categories();
-    return summary;
+    return {
+      name: this.name(),
+      categories: this.categories(),
+    };
   }
 
   static parse(
