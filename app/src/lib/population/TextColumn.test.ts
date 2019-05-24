@@ -56,3 +56,15 @@ test('no max', () => {
     column.max();
   }).toThrow(Error);
 });
+
+test('no percentile', () => {
+  expect(() => {
+    column.percentile(0.5);
+  }).toThrow(Error);
+});
+
+test('no median', () => {
+  expect(() => {
+    column.median();
+  }).toThrow(Error);
+});

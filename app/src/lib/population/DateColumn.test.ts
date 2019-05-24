@@ -34,6 +34,9 @@ test('from indexes', () => {
   expect(dateStrings.join()).toEqual(
     'Tue Jan 01 2019,Tue Jan 01 2019,Fri Jan 01 2016'
   );
+  const medianDate = firstFirstThird.percentile(0.5) as Date;
+  expect(medianDate.toString().substr(0, 15)).toBe('Tue Jan 01 2019');
+  expect(firstFirstThird.median()).toEqual(medianDate);
 });
 
 test('bind', () => {
@@ -45,6 +48,8 @@ test('empty', () => {
   const emptyDateColumn = new DateColumn('empty', [null, null, null]);
   expect(emptyDateColumn.min()).toBeNull();
   expect(emptyDateColumn.max()).toBeNull();
+  expect(emptyDateColumn.percentile(0.5)).toBeNull();
+  expect(emptyDateColumn.median()).toBeNull();
 });
 
 test('no categories', () => {

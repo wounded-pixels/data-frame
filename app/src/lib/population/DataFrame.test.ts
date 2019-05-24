@@ -159,6 +159,17 @@ test('min and max', () => {
   expect(maxBirthDate.getFullYear()).toBe(1955);
 });
 
+test('percentile', () => {
+  expect(heightsWeightsGenders.column('height').percentile(0.5)).toBe(68);
+  const medianBirthDate = heightsWeightsGenders
+    .column('birth date')
+    .percentile(0.5) as Date;
+  expect(medianBirthDate.getFullYear()).toBe(1953);
+  expect(heightsWeightsGenders.column('birth date').median()).toEqual(
+    medianBirthDate
+  );
+});
+
 test('summary', () => {
   const summary = heightsWeightsGenders.summary();
   expect(summary.columns.length).toBe(5);

@@ -55,4 +55,12 @@ export class TextColumn extends Column {
   categories(): string[] {
     throw new Error('no categories for Text column');
   }
+
+  median(): number {
+    throw new Error('no median for Text column');
+  }
+
+  percentile(rawRatio: number): number {
+    throw new Error('no percentile for Text column');
+  }
 }

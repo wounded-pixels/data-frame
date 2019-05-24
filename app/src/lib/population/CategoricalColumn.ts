@@ -34,6 +34,14 @@ export class CategoricalColumn extends Column {
     throw new Error('no max for Categorical column');
   }
 
+  median(): number {
+    throw new Error('no median for Categorical column');
+  }
+
+  percentile(rawRatio: number): number {
+    throw new Error('no percentile for Categorical column');
+  }
+
   /** copy of values */
   values(): (string | null)[] {
     return this.indexes.map(index => {

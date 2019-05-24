@@ -31,6 +31,8 @@ export abstract class Column {
   abstract sum(): number;
   abstract min(): number | Date | null;
   abstract max(): number | Date | null;
+  abstract median(): number | Date | null;
+  abstract percentile(rawRatio: number): number | Date | null;
 
-  // TODO: add median and percentile with tests in DataFrame.test - Dates too
+  // TODO: add 25th, median, 75th percentiles to summary?
 }

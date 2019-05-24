@@ -1,4 +1,5 @@
 import { Column, ColumnSummary } from './Column';
+import { clamp } from '../util/math';
 
 export class DateColumn extends Column {
   private readonly timesInMilliseconds: (number | null)[];
@@ -60,6 +61,35 @@ export class DateColumn extends Column {
           ]
         )
       : null;
+  }
+
+  median(): Date | null {
+    return this.percentile(0.5);
+  }
+
+  percentile(rawRatio: number): Date | null {
+    if (this.sortedTimesInMilliseconds.length === 0) {
+      return null;
+    }
+
+    const ratio = clamp(0, 1, rawRatio);
+
+    if (this.sortedTimesInMilliseconds.length % 2 === 0) {
+      // even length
+      const decimalIndex = ratio * this.sortedTimesInMilliseconds.length;
+      const wholeIndex = Math.round(decimalIndex);
+
+      const averageTimeInMilliseconds =
+        (this.sortedTimesInMilliseconds[wholeIndex] +
+          this.sortedTimesInMilliseconds[wholeIndex - 1]) /
+        2;
+      return new Date(averageTimeInMilliseconds);
+    } else {
+      // odd length
+      const decimalIndex = ratio * (this.sortedTimesInMilliseconds.length - 1);
+      const wholeIndex = Math.ceil(decimalIndex);
+      return new Date(this.sortedTimesInMilliseconds[wholeIndex]);
+    }
   }
 
   summary(): ColumnSummary {
