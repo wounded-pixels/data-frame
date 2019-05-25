@@ -171,6 +171,7 @@ test('percentile', () => {
 });
 
 test('summary', () => {
+  heightsWeightsGenders.column('birth date').percentile(0.75);
   const summary = heightsWeightsGenders.summary();
   expect(summary.columns.length).toBe(5);
 
@@ -183,6 +184,9 @@ test('summary', () => {
     max: 72,
     mean: (72 + 68 + 61) / 3,
     min: 61,
+    median: 68,
+    twentyFifthPercentile: 68,
+    seventyFifthPercentile: 72,
   });
 
   expect(summary.columns[3]).toEqual({
@@ -191,9 +195,45 @@ test('summary', () => {
   });
 
   expect(summary.columns[4].name).toEqual('birth date');
-  const minDate = summary.columns[4].min as Date;
-  const maxDate = summary.columns[4].max as Date;
+  const bd = summary.columns[4];
+
+  const minDate = bd.min as Date;
+  const maxDate = bd.max as Date;
+  const twentyFifthPercentileDate = bd.twentyFifthPercentile as Date;
+  const medianDate = bd.median as Date;
+  const seventyFifthPercentileDate = bd.seventyFifthPercentile as Date;
 
   expect(minDate.toString().substring(0, 15)).toEqual('Fri Apr 13 1951');
   expect(maxDate.toString().substring(0, 15)).toEqual('Thu May 05 1955');
+  expect(twentyFifthPercentileDate.toString().substring(0, 15)).toEqual(
+    'Thu Apr 23 1953'
+  );
+  expect(medianDate.toString().substring(0, 15)).toEqual('Thu Apr 23 1953');
+  expect(seventyFifthPercentileDate.toString().substring(0, 15)).toEqual(
+    'Thu Apr 23 1953'
+  );
+});
+
+test('summary string', () => {
+  const heightSummary = heightsWeightsGenders.column('height').summaryString();
+  expect(heightSummary).toEqual(
+    'Name: height    Min: 61 Max: 72    25%: 68  50%: 68  75%: 72'
+  );
+
+  const birthSummary = heightsWeightsGenders
+    .column('birth date')
+    .summaryString();
+  expect(birthSummary).toContain('Name: birth date');
+  expect(birthSummary).toContain('Min: Fri Apr 13 1951');
+  expect(birthSummary).toContain('Max: Thu May 05 1955');
+  expect(birthSummary).toContain('25%: Thu Apr 23 1953');
+  expect(birthSummary).toContain('50%: Thu Apr 23 1953');
+  expect(birthSummary).toContain('75%: Thu Apr 23 1953');
+
+  const genderSummary = heightsWeightsGenders.column('gender').summaryString();
+  expect(genderSummary).toBe('Name: gender    Categories: female, male');
+
+  const dfSummaryString = heightsWeightsGenders.summaryString();
+  const expectedFirstFive = `3 rows by 5 columns\nName: name\nName: height    Min: 61 Max: 72    25%: 68  50%: 68  75%: 72\nName: weight    Min: 101 Max: 230    25%: 190  50%: 190  75%: 230\nName: gender    Categories: female, male\nName: birth date `;
+  expect(dfSummaryString.startsWith(expectedFirstFive));
 });

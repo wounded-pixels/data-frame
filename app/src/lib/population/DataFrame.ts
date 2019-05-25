@@ -76,6 +76,18 @@ export class DataFrame {
     return { columns };
   }
 
+  summaryString(): string {
+    const columnSummaryStrings = Object.values(this.columnMap)
+      .map(column => {
+        return column.summaryString();
+      })
+      .join('\n');
+
+    return `${this.dimensions().rows} rows by ${
+      this.dimensions().columns
+    } columns\n${columnSummaryStrings}`;
+  }
+
   static rowBind(top: DataFrame, bottom: DataFrame): DataFrame {
     const combinedColumns: Column[] = Object.values(top.columnMap).map(
       column => {

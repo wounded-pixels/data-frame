@@ -4,6 +4,9 @@ export type ColumnSummary = {
   max?: number | Date | null;
   mean?: number;
   min?: number | Date | null;
+  twentyFifthPercentile?: number | Date | null;
+  median?: number | Date | null;
+  seventyFifthPercentile?: number | Date | null;
 };
 
 export abstract class Column {
@@ -15,6 +18,24 @@ export abstract class Column {
 
   name(): string {
     return this.aName;
+  }
+
+  summaryString(): string {
+    const summary = this.summary();
+    const rangeString = summary.min
+      ? `Min: ${summary.min} Max: ${summary.max}    `
+      : '';
+    const percentiles = summary.twentyFifthPercentile
+      ? `25%: ${summary.twentyFifthPercentile}  50%: ${summary.median}  75%: ${
+          summary.seventyFifthPercentile
+        }`
+      : '';
+    const categories = summary.categories
+      ? `Categories: ${summary.categories.join(', ')}`
+      : '';
+    return `Name: ${
+      summary.name
+    }    ${rangeString}${percentiles}${categories}`.trim();
   }
 
   // subclasses must implement these required methods
@@ -33,6 +54,4 @@ export abstract class Column {
   abstract max(): number | Date | null;
   abstract median(): number | Date | null;
   abstract percentile(rawRatio: number): number | Date | null;
-
-  // TODO: add 25th, median, 75th percentiles to summary?
 }

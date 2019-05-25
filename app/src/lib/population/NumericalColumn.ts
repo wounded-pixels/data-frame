@@ -71,7 +71,10 @@ export class NumericalColumn extends Column {
     if (this.sortedValues.length % 2 === 0) {
       // even length
       const decimalIndex = ratio * this.sortedValues.length;
-      const wholeIndex = Math.round(decimalIndex);
+      const wholeIndex = Math.min(
+        Math.round(decimalIndex),
+        this.sortedValues.length - 1
+      );
       return (
         (this.sortedValues[wholeIndex] + this.sortedValues[wholeIndex - 1]) / 2
       );
@@ -101,6 +104,9 @@ export class NumericalColumn extends Column {
       min: this.min(),
       mean: this.mean(),
       max: this.max(),
+      twentyFifthPercentile: this.percentile(0.25),
+      median: this.median(),
+      seventyFifthPercentile: this.percentile(0.75),
     };
   }
 

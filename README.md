@@ -14,10 +14,10 @@ Columns
 - Text column X
 - parse for text vs categorical X
 - Ordinal column
-- median and percentile
+- median and percentile X
 - Date / time column
 
-  - different formats
+  - parse different formats
   - specify format in column hint
 
 - mutate a column in place pass function Examples:
@@ -58,6 +58,8 @@ Summaries
 
 - summary object per column X
 - summary object for data frame X
+- include percentiles X
+- Summary string X
 
 Population
 

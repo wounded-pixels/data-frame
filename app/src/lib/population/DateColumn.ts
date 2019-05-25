@@ -77,7 +77,10 @@ export class DateColumn extends Column {
     if (this.sortedTimesInMilliseconds.length % 2 === 0) {
       // even length
       const decimalIndex = ratio * this.sortedTimesInMilliseconds.length;
-      const wholeIndex = Math.round(decimalIndex);
+      const wholeIndex = Math.min(
+        Math.round(decimalIndex),
+        this.sortedTimesInMilliseconds.length - 1
+      );
 
       const averageTimeInMilliseconds =
         (this.sortedTimesInMilliseconds[wholeIndex] +
@@ -97,6 +100,9 @@ export class DateColumn extends Column {
       name: this.name(),
       min: this.min(),
       max: this.max(),
+      twentyFifthPercentile: this.percentile(0.25),
+      median: this.median(),
+      seventyFifthPercentile: this.percentile(0.75),
     };
   }
 
