@@ -26,6 +26,35 @@ test('simple', () => {
   expect(maxDate.getFullYear()).toBe(2019);
 });
 
+test('from strings', () => {
+  const raw = [
+    '02/01/1977',
+    '03/12/2020',
+    '02/10/1901',
+    '02/01/1801',
+    '',
+    '',
+    null,
+    1,
+    '',
+    undefined,
+    '12/31/1990',
+  ];
+  const parsed = DateColumn.parse('parsed', raw, 'MM/DD/YYYY') as DateColumn;
+  expect(parsed.length()).toBe(11);
+
+  const firstDate = parsed.values()[0];
+  expect(firstDate).toEqual(new Date(1977, 1, 1));
+});
+
+test('from strings with less than 80% of defined values being parsable', () => {
+  const raw = ['01/01/1999', 'b', 'c'];
+  const column = DateColumn.parse('from raw', raw, 'MM/DD/YYYY');
+  expect(column).toBeNull();
+});
+
+// TODO: add default date formats
+
 test('from indexes', () => {
   const firstFirstThird = dateColumn.fromRowIndexes([0, 0, 2]);
   const dateStrings = firstFirstThird

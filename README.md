@@ -28,7 +28,7 @@ Columns
 Mutate data frame by creating a new column from a function NEED MORE THOUGHT. Real world exercises from dplyr
 
 - createColumn('adjusted weight', (row) => row.weight/row.height)
-- include overall info createColumn('height ratio', (row, summary) => row.height/columns['height'].max())
+- include overall info createColumn('height ratio', (row, summaryMap) => row.height/summaryMap['height'].max
 
 DataFrameParser - Read from csv
 

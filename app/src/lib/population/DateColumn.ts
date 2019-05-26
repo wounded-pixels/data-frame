@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { Column, ColumnSummary } from './Column';
 import { clamp } from '../util/math';
 
@@ -116,5 +118,36 @@ export class DateColumn extends Column {
 
   sum(): number {
     throw new Error('no sum for Date column');
+  }
+
+  // returns a DateColumn unless less than acceptanceRatio of non-empty values are non-numeric
+  // it can be sparse, but it must be at least acceptanceRatio numbers
+  static parse(
+    name: string,
+    rawValues: (string | number | null | undefined)[],
+    dateFormat: string,
+    acceptanceRatio: number = 0.8
+  ): DateColumn | null {
+    // map everything to either a valid date or null
+    let missingCount = 0;
+    const values = rawValues.map(raw => {
+      if (raw === null || raw === undefined) {
+        missingCount++;
+        return null;
+      }
+
+      if (('' + raw).trim().length === 0) {
+        missingCount++;
+        return null;
+      }
+
+      return moment('' + raw, dateFormat).valueOf();
+    });
+
+    const missingAndBadCount = values.filter(value => !value).length;
+    const goodCount = values.length - missingAndBadCount;
+    const badCount = missingAndBadCount - missingCount;
+    const goodRatio = goodCount / (goodCount + badCount);
+    return goodRatio > acceptanceRatio ? new DateColumn(name, values) : null;
   }
 }

@@ -1,6 +1,7 @@
 import { DataFrame } from './DataFrame';
 import { Type } from './DataFrameParser';
 
+// TODO: add date examples and hints
 const csv = `
   name, gender,height, weight
   fred,m, 72, 195
