@@ -7,6 +7,19 @@ DataFrame type thing in TypeScript
 
 - encapsulation of values? X
 
+Refactor as wp-dataframe
+
+- https://www.npmjs.com/package/module-best-practices
+- https://docs.npmjs.com/files/package.json
+- use scope? https://blog.npmjs.org/post/116936804365/solving-npms-hard-problem-naming-packages
+
+- decent readme
+- sample react app
+- sample node app
+- external unit tests to show imports?? needed?
+- issues?
+- lock down and take PRs?
+
 Columns
 
 - Base class for columns - name, length, values X
@@ -15,10 +28,11 @@ Columns
 - parse for text vs categorical X
 - Ordinal column
 - median and percentile X
-- Date / time column
+- Date / time column X
+  - parse different formats X
+  - specify format in column hint X
 
-  - parse different formats
-  - specify format in column hint
+Mutations
 
 - mutate a column in place pass function Examples:
 - Replace negative with null
