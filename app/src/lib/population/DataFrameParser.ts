@@ -3,13 +3,15 @@ import { Column } from './Column';
 import { NumericalColumn } from './NumericalColumn';
 import { CategoricalColumn } from './CategoricalColumn';
 import { TextColumn } from './TextColumn';
+import { DateColumn } from './DateColumn';
 
 export enum Type {
   Text,
 }
 
 type ColumnHints = {
-  type: Type;
+  type?: Type;
+  dateFormat?: string;
 };
 
 interface ColumnMap {
@@ -68,11 +70,17 @@ export class DataFrameParser {
       const rawValues = rawColumns[columnCtr];
 
       const hints = columnHints[name] || {};
-      const { type } = hints;
+      const { type, dateFormat } = hints;
 
       if (type === Type.Text) {
         const textColumn = new TextColumn(name, rawValues);
         columns.push(textColumn);
+        continue;
+      }
+
+      const dateColumn = DateColumn.parse(name, rawValues, dateFormat);
+      if (dateColumn) {
+        columns.push(dateColumn);
         continue;
       }
 

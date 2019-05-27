@@ -125,7 +125,7 @@ export class DateColumn extends Column {
   static parse(
     name: string,
     rawValues: (string | number | null | undefined)[],
-    dateFormat: string,
+    dateFormat: string = 'MM/DD/YYYY',
     acceptanceRatio: number = 0.8
   ): DateColumn | null {
     // map everything to either a valid date or null

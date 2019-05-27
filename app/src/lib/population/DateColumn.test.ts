@@ -53,7 +53,24 @@ test('from strings with less than 80% of defined values being parsable', () => {
   expect(column).toBeNull();
 });
 
-// TODO: add default date formats
+test('from strings with less than 80% of defined values being parsable. Override', () => {
+  const raw = ['01/01/1999', 'b', 'c'];
+  const column = DateColumn.parse(
+    'from raw',
+    raw,
+    'MM/DD/YYYY',
+    0.3
+  ) as DateColumn;
+  expect(column.length()).toBe(3);
+});
+
+test('from strings, standard formats', () => {
+  const raw = ['03/06/2011', '1/1/1999', ''];
+  const column = DateColumn.parse('from raw', raw) as DateColumn;
+  expect(column.length()).toBe(3);
+  const firstDate = column.values()[0] as Date;
+  expect(firstDate.getFullYear()).toBe(2011);
+});
 
 test('from indexes', () => {
   const firstFirstThird = dateColumn.fromRowIndexes([0, 0, 2]);
