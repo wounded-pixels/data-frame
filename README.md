@@ -27,6 +27,7 @@ Columns
 - Text column X
 - parse for text vs categorical X
 - Ordinal column
+  - parse based on hint in df
 - median and percentile X
 - Date / time column X
   - parse different formats X

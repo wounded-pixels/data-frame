@@ -1,6 +1,7 @@
 import { DataFrame } from './DataFrame';
 import { Type } from './DataFrameParser';
 
+// TODO: parse ordinals based on hint
 const csv = `
   name, gender,height, weight, dob
   fred,m, 72, 195, 03/06/1951

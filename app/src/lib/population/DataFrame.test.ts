@@ -3,6 +3,7 @@ import { DataFrame } from './DataFrame';
 import { CategoricalColumn } from './CategoricalColumn';
 import { TextColumn } from './TextColumn';
 import { DateColumn } from './DateColumn';
+import { OrdinalColumn } from './OrdinalColumn';
 
 const nameColumn = new TextColumn('name', ['Fred', 'Barney', 'Wilma']);
 const heightColumn = new NumericalColumn('height', [72, 68, 61]);
@@ -17,6 +18,11 @@ const birthDateColumn = new DateColumn('birth date', [
   new Date(1955, 4, 5),
   null,
 ]);
+const shirtSizeColumn = new OrdinalColumn(
+  'shirt size',
+  ['S', 'M', 'L', 'XL'],
+  ['XL', 'L', '']
+);
 
 const heightsWeightsGenders = new DataFrame([
   nameColumn,
@@ -24,11 +30,12 @@ const heightsWeightsGenders = new DataFrame([
   weightColumn,
   genderColumn,
   birthDateColumn,
+  shirtSizeColumn,
 ]);
 
 test('construction', () => {
   const dimensions = heightsWeightsGenders.dimensions();
-  expect(dimensions).toEqual({ rows: 3, columns: 5 });
+  expect(dimensions).toEqual({ rows: 3, columns: 6 });
   expect(heightsWeightsGenders.column('height').mean()).toBe(
     (72 + 68 + 61) / 3
   );
@@ -60,7 +67,7 @@ test('sample with replacement', () => {
   const sampleSize = 10000;
   const swr = heightsWeightsGenders.sampleWithReplacement(sampleSize);
 
-  expect(swr.dimensions()).toEqual({ rows: sampleSize, columns: 5 });
+  expect(swr.dimensions()).toEqual({ rows: sampleSize, columns: 6 });
   expect(swr.column('height').mean()).toBeCloseTo(heightColumn.mean(), 0);
 
   const femaleCount = swr
@@ -81,7 +88,7 @@ test('sample without replacement', () => {
   const reps = 10000;
   for (let ctr = 0; ctr < reps; ctr++) {
     const sample = heightsWeightsGenders.sampleWithoutReplacement(3);
-    expect(sample.dimensions()).toEqual({ rows: 3, columns: 5 });
+    expect(sample.dimensions()).toEqual({ rows: 3, columns: 6 });
 
     const heightValues = sample.column('height').values();
     const genderValues = sample.column('gender').values();
@@ -120,32 +127,46 @@ test('row bind', () => {
   const heights1 = new NumericalColumn('height', [72, 68]);
   const weights1 = new NumericalColumn('weight', [230, 190]);
   const genders1 = new CategoricalColumn('gender', ['male', 'male']);
+  const shirtSizes1 = new OrdinalColumn(
+    'shirt size',
+    ['S', 'M', 'L', 'XL'],
+    ['XL', 'L']
+  );
   const heightsWeightsGenders1 = new DataFrame([
     names1,
     heights1,
     weights1,
     genders1,
+    shirtSizes1,
   ]);
 
   const names2 = new TextColumn('name', ['Wilma', 'Betty']);
   const heights2 = new NumericalColumn('height', [77, 78]);
   const weights2 = new NumericalColumn('weight', [268, 261]);
   const genders2 = new CategoricalColumn('gender', ['female', 'female']);
+  const shirtSizes2 = new OrdinalColumn(
+    'shirt size',
+    ['S', 'M', 'L', 'XL'],
+    ['M', 'S']
+  );
+
   const heightsWeightsGenders2 = new DataFrame([
     names2,
     weights2,
     heights2,
     genders2,
+    shirtSizes2,
   ]);
 
   const combined = DataFrame.rowBind(
     heightsWeightsGenders1,
     heightsWeightsGenders2
   );
-  expect(combined.dimensions()).toEqual({ rows: 4, columns: 4 });
+  expect(combined.dimensions()).toEqual({ rows: 4, columns: 5 });
   expect(combined.column('height').mean()).toEqual((72 + 68 + 77 + 78) / 4);
   expect(combined.column('name').values()[2]).toBe('Wilma');
   expect(combined.column('gender').values()[2]).toBe('female');
+  expect(combined.column('shirt size').values()[2]).toBe('M');
 });
 
 test('min and max', () => {
@@ -173,7 +194,7 @@ test('percentile', () => {
 test('summary', () => {
   heightsWeightsGenders.column('birth date').percentile(0.75);
   const summary = heightsWeightsGenders.summary();
-  expect(summary.columns.length).toBe(5);
+  expect(summary.columns.length).toBe(6);
 
   expect(summary.columns[0]).toEqual({
     name: 'name',
