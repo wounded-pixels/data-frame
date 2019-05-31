@@ -4,6 +4,7 @@ import { NumericalColumn } from './NumericalColumn';
 import { CategoricalColumn } from './CategoricalColumn';
 import { TextColumn } from './TextColumn';
 import { DateColumn } from './DateColumn';
+import { OrdinalColumn } from './OrdinalColumn';
 
 export enum Type {
   Text,
@@ -12,6 +13,7 @@ export enum Type {
 type ColumnHints = {
   type?: Type;
   dateFormat?: string;
+  orderedCategories?: string[];
 };
 
 interface ColumnMap {
@@ -70,11 +72,21 @@ export class DataFrameParser {
       const rawValues = rawColumns[columnCtr];
 
       const hints = columnHints[name] || {};
-      const { type, dateFormat } = hints;
+      const { type, dateFormat, orderedCategories } = hints;
 
       if (type === Type.Text) {
         const textColumn = new TextColumn(name, rawValues);
         columns.push(textColumn);
+        continue;
+      }
+
+      if (orderedCategories) {
+        const ordinalColumn = new OrdinalColumn(
+          name,
+          orderedCategories,
+          rawValues
+        );
+        columns.push(ordinalColumn);
         continue;
       }
 
