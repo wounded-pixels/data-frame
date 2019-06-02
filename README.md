@@ -7,33 +7,38 @@ DataFrame type thing in TypeScript
 
 - encapsulation of values? X
 
-Refactor as wp-dataframe
+## Refactor as wp-dataframe
+
+### packaging
 
 - https://www.npmjs.com/package/module-best-practices
 - https://docs.npmjs.com/files/package.json
 - use scope? https://blog.npmjs.org/post/116936804365/solving-npms-hard-problem-naming-packages
-
 - decent readme
+
+### refactoring
+
+- main library
 - sample react app
 - sample node app
 - external unit tests to show imports?? needed?
 - issues?
 - lock down and take PRs?
 
-Columns
+## Columns
 
 - Base class for columns - name, length, values X
 - Categorical column X
 - Text column X
 - parse for text vs categorical X
 - Ordinal column
-  - parse based on hint in df
+  - parse based on hint in df X
 - median and percentile X
 - Date / time column X
   - parse different formats X
   - specify format in column hint X
 
-Mutations
+## Mutations
 
 - mutate a column in place pass function Examples:
 - Replace negative with null
@@ -45,7 +50,7 @@ Mutate data frame by creating a new column from a function NEED MORE THOUGHT. Re
 - createColumn('adjusted weight', (row) => row.weight/row.height)
 - include overall info createColumn('height ratio', (row, summaryMap) => row.height/summaryMap['height'].max
 
-DataFrameParser - Read from csv
+## DataFrameParser - Read from csv
 
 - basic with headers in csv X
 - headers from client code X
@@ -55,11 +60,11 @@ DataFrameParser - Read from csv
 - test vs dplyr
 - test vs Pandas
 
-DataFrame descriptive stats
+## DataFrame descriptive stats
 
 - dimensions X
 
-Column descriptive stats
+### Column descriptive stats
 
 - mean X
 - max X
@@ -69,14 +74,14 @@ Column descriptive stats
 - Other percentiles? Need more here. So many ways...
 - bins
 
-Summaries
+### Summaries
 
 - summary object per column X
 - summary object for data frame X
 - include percentiles X
 - Summary string X
 
-Population
+### Population
 
 - Specify category for population X
 - Specify mix of categories. Map of numbers? 1,2 => 1/3, 2/3
@@ -85,13 +90,14 @@ Population
 - Calculate column (mutate?)
 - Group by - stats by group
 
-- Selections
-  - select(predicate) returns a selection. underlying is not changed
-  - select on a selection returns another selection... so on
-  - mutate a selection? set a column value?
-    df.select((row) => row.height < 0).mutate(row => row.height = null)
-  - Selection asDataFrame
-  - ObservableSelection? onChange callbacks?
+### Selections
+
+- select(predicate) returns a selection. underlying is not changed
+- select on a selection returns another selection... so on
+- mutate a selection? set a column value?
+  df.select((row) => row.height < 0).mutate(row => row.height = null)
+- Selection asDataFrame
+- ObservableSelection? onChange callbacks?
 - Projection - specify columns
   - by name
   - by predicate

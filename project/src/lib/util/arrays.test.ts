@@ -7,6 +7,13 @@ test('create range', () => {
   expect(singles[9]).toBe(9);
 });
 
+test('create range evens', () => {
+  const singles = createRange(0, 10, 2);
+  expect(singles.length).toBe(5);
+  expect(singles[0]).toBe(0);
+  expect(singles[4]).toBe(8);
+});
+
 test('remove value', () => {
   const mixed = ['fred', 1, 'a'];
   removeValue(mixed, 'fred');

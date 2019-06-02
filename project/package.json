@@ -1,30 +1,20 @@
 {
-  "name": "app",
+  "name": "dataframe",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/jest": "24.0.11",
     "@types/node": "11.11.3",
-    "@types/react": "^16.8.8",
-    "@types/react-dom": "16.8.2",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",
     "random": "^2.1.1",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react-scripts": "3.0.0",
     "typescript": "3.3.3333"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "coverage": "react-scripts test --maxWorkers=4 --coverage ./src/lib",
+    "test": "jest --watch ./src/lib",
+    "coverage": "jest --coverage --watch  ./src/lib",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
+  "eslintConfig": {},
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -32,14 +22,17 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@types/jest": "^24.0.11",
     "husky": "^2.1.0",
+    "jest": "^24.8.0",
     "onchange": "^5.2.0",
     "prettier": "^1.17.0",
-    "pretty-quick": "^1.10.0"
+    "pretty-quick": "^1.10.0",
+    "ts-jest": "^24.0.2"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npx pretty-quick --staged && npm ci && CI=true npm test",
+      "pre-commit": "npx pretty-quick --staged && npm ci && jest --ci ./src/lib",
       "pre-push": "CI=true npm test"
     }
   }
