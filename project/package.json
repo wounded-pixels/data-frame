@@ -33,7 +33,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npx pretty-quick --staged && npm ci && jest --ci ./src/lib",
-      "pre-push": "CI=true npm test"
+      "pre-push": "jest --ci ./src/lib"
     }
   }
 }
