@@ -1,17 +1,24 @@
 {
   "name": "dataframe",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "main": "dist/data-frame.js",
+  "module": "dist/data-frame.es.js",
+  "browser": "dist/data-frame.vanilla.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/data-frame.d.ts",
+  "license": "MIT",
   "dependencies": {
     "@types/node": "11.11.3",
     "moment": "^2.24.0",
-    "random": "^2.1.1",
-    "typescript": "3.3.3333"
+    "random": "^2.1.1"
   },
   "scripts": {
     "test": "jest --watch ./src/lib",
     "coverage": "jest --coverage --watch  ./src/lib",
-    "eject": "react-scripts eject"
+    "build": "rollup -c && tsc -p ./tsconfig-typings.json"
   },
   "eslintConfig": {},
   "browserslist": [
@@ -27,7 +34,12 @@
     "onchange": "^5.2.0",
     "prettier": "^1.17.0",
     "pretty-quick": "^1.10.0",
-    "ts-jest": "^24.0.2"
+    "rollup": "^1.13.1",
+    "rollup-plugin-tsc": "^1.1.15",
+    "rollup-plugin-typescript": "^1.0.1",
+    "ts-jest": "^24.0.2",
+    "tslib": "^1.9.3",
+    "typescript": "3.3.3333"
   },
   "husky": {
     "hooks": {

@@ -75,7 +75,7 @@ test('sample with replacement', () => {
     .values()
     .reduce((count: number, gender) => {
       return gender === 'female' ? count + 1 : count;
-    }, 0);
+    }, 0) as number;
 
   const expectedFemaleCount = Math.round(sampleSize / 3);
   expect(femaleCount / 1000).toBeCloseTo(expectedFemaleCount / 1000, 0);
