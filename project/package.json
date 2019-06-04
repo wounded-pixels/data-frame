@@ -2,13 +2,13 @@
   "name": "@wounded-pixels/data-frame",
   "version": "0.1.0",
   "private": false,
-  "main": "dist/data-frame.js",
+  "main": "lib/main.js",
   "module": "dist/data-frame.es.js",
   "browser": "dist/data-frame.vanilla.js",
   "files": [
     "dist"
   ],
-  "types": "typings/main.d.ts",
+  "types": "lib/main.d.ts",
   "license": "MIT",
   "dependencies": {
     "@types/node": "11.11.3",

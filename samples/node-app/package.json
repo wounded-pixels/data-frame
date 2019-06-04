@@ -8,8 +8,11 @@
   },
   "author": "",
   "license": "MIT",
-  "devDependencies": {},
+  "devDependencies": {
+    "typescript": "^3.5.1"
+  },
   "dependencies": {
+    "@types/node": "~10.10.3",
     "@wounded-pixels/data-frame": "^0.1.0"
   }
 }

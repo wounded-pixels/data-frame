@@ -14,4 +14,4 @@ const df = DataFrame.parseCSV(csv, {
   columns: { "shirt size": { orderedCategories: shirtSizes } }
 });
 
-console.log("df.df.dimensions()", df.dimensions());
+console.log("df.dimensions()", df.dimensions());
