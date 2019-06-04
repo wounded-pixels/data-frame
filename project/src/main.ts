@@ -1,1 +1,3 @@
-export { DataFrame } from './lib/dataframe/DataFrame';
+import { DataFrame } from './lib/dataframe/DataFrame';
+
+export { DataFrame };

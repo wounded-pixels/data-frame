@@ -1,5 +1,5 @@
 {
-  "name": "dataframe",
+  "name": "@wounded-pixels/data-frame",
   "version": "0.1.0",
   "private": false,
   "main": "dist/data-frame.js",
@@ -8,7 +8,7 @@
   "files": [
     "dist"
   ],
-  "types": "dist/data-frame.d.ts",
+  "types": "typings/main.d.ts",
   "license": "MIT",
   "dependencies": {
     "@types/node": "11.11.3",
