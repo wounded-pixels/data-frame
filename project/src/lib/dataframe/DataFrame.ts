@@ -1,7 +1,6 @@
-// @ts-ignore
-import random from 'random';
-
 import { createRange, removeValue } from '../util/arrays';
+import { randomInt } from '../util/random';
+
 import { Column } from './Column';
 import {
   DataFrameParser,
@@ -41,7 +40,7 @@ export class DataFrame {
   sampleWithReplacement(size: number): DataFrame {
     const indexes: number[] = [];
     for (let ctr = 0; ctr < size; ctr++) {
-      indexes.push(random.int(0, this.height - 1));
+      indexes.push(randomInt(0, this.height - 1));
     }
 
     return this.fromRowIndexes(indexes);
@@ -56,7 +55,7 @@ export class DataFrame {
     const indexes: number[] = [];
 
     while (indexes.length < size) {
-      const index = possibleIndexes[random.int(0, possibleIndexes.length - 1)];
+      const index = possibleIndexes[randomInt(0, possibleIndexes.length - 1)];
       indexes.push(index);
       removeValue(possibleIndexes, index);
     }

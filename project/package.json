@@ -20,8 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "11.11.3",
-    "moment": "^2.24.0",
-    "random": "^2.1.1"
+    "moment": "^2.24.0"
   },
   "scripts": {
     "test": "jest --watch ./src/lib",
