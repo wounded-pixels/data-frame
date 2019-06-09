@@ -1,4 +1,5 @@
-import { Column, ColumnSummary } from './Column';
+import { Column } from './Column';
+import { ColumnSummary } from './ColumnSummary';
 
 export class TextColumn extends Column {
   private readonly theValues: (string | null)[];

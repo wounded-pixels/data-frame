@@ -4,7 +4,8 @@
   "description": "Sample node app for data-frame",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "node ./dist/index.js"
   },
   "author": "",
   "license": "MIT",
@@ -12,7 +13,6 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
-    "@types/node": "~10.10.3",
-    "@wounded-pixels/data-frame": "^0.1.0"
+    "@types/node": "~10.10.3"
   }
 }

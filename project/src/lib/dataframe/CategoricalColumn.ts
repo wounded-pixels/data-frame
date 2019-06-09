@@ -1,4 +1,5 @@
-import { Column, ColumnSummary } from './Column';
+import { Column } from './Column';
+import { ColumnSummary } from './ColumnSummary';
 
 export class CategoricalColumn extends Column {
   private readonly indexes: (number | null)[] = [];

@@ -1,6 +1,8 @@
 import moment from 'moment';
 
-import { Column, ColumnSummary } from './Column';
+import { Column } from './Column';
+import { ColumnSummary } from './ColumnSummary';
+
 import { clamp } from '../util/math';
 
 export class DateColumn extends Column {

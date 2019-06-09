@@ -1,4 +1,6 @@
-import { Column, ColumnSummary } from './Column';
+import { Column } from './Column';
+import { ColumnSummary } from './ColumnSummary';
+
 import { clamp } from '../util/math';
 
 export class NumericalColumn extends Column {

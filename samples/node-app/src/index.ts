@@ -15,3 +15,10 @@ const df = DataFrame.parseCSV(csv, {
 });
 
 console.log("df.dimensions()", df.dimensions());
+console.log("df.summary()", df.summary());
+console.log(df.summary().columns[0].name);
+
+const summary = df.summary();
+const nameSummary = summary.columns[0];
+const name = nameSummary.name;
+console.log(`first column name is ${df.summary().columns[0].name}`);

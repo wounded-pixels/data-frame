@@ -7,7 +7,7 @@
   },
   "files": [
     "./node_modules/@types/node/index.d.ts",
-    "./node_modules/@wounded-pixels/data-frame/dist/main.d.ts"
+    "./node_modules/@wounded-pixels/data-frame/dist/data-frame.d.ts"
   ],
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

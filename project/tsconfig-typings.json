@@ -2,14 +2,14 @@
   "compilerOptions": {
     "baseUrl": "src",
     "declaration": true,
-    "declarationDir": "./typings",
+    "declarationDir": "./dist",
     "emitDeclarationOnly": true,
     "esModuleInterop": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "es6",
     "moduleResolution": "node",
     "noImplicitAny": true,
-    "outDir": "./typings",
+    "outDir": "./dist",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "target": "es5"

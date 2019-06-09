@@ -7,6 +7,11 @@ DataFrame type thing in TypeScript
 
 - encapsulation of values? X
 
+## Misc
+
+- get rid of random
+- get rid of circular dependency df and dfparser
+
 ## Refactor as wp-dataframe
 
 ### packaging

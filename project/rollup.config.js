@@ -1,10 +1,9 @@
 import typescript from 'rollup-plugin-typescript';
-import tsc from 'rollup-plugin-tsc';
 
 import pkg from './package.json';
 
 export default {
-  input: './src/main.ts',
+  input: './src/data-frame.ts',
   output: [
     {
       file: pkg.main,
