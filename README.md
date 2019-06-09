@@ -1,47 +1,18 @@
-# resampling
+# data-frame
 
-Tools and demos for resampling in statistics
-DataFrame type thing in TypeScript
+Tidy data. On the Web.
 
-## Todo
+## Installing
+TLDR: ```npm i @wounded-pixels/data-frame --save```
 
-- encapsulation of values? X
+For installation details and usage visit [the project](https://github.com/wounded-pixels/data-frame/blob/master/project/README.md)
+or [npm package](https://www.npmjs.com/package/@wounded-pixels/data-frame)
 
-## Misc
+## Contributing
 
-- get rid of random
-- get rid of circular dependency df and dfparser
-
-## Refactor as wp-dataframe
-
-### packaging
-
-- https://www.npmjs.com/package/module-best-practices
-- https://docs.npmjs.com/files/package.json
-- use scope? https://blog.npmjs.org/post/116936804365/solving-npms-hard-problem-naming-packages
-- decent readme
-
-### refactoring
-
-- main library
-- sample react app
-- sample node app
-- external unit tests to show imports?? needed?
-- issues?
+TBD
 - lock down and take PRs?
 
-## Columns
-
-- Base class for columns - name, length, values X
-- Categorical column X
-- Text column X
-- parse for text vs categorical X
-- Ordinal column
-  - parse based on hint in df X
-- median and percentile X
-- Date / time column X
-  - parse different formats X
-  - specify format in column hint X
 
 ## Mutations
 
