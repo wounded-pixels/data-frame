@@ -1,13 +1,14 @@
 {
   "name": "@wounded-pixels/data-frame",
   "description": "Tidy data. For the web.",
-  "homepage": "https://github.com/wounded-pixels/data-frame#readme",
+  "homepage": "https://github.com/wounded-pixels/data-frame/blob/master/project/README.md",
   "keywords": [
     "tidy",
     "typescript",
-    "dataframe"
+    "dataframe",
+    "data-frame"
   ],
-  "version": "0.2.0",
+  "version": "0.2.2",
   "private": false,
   "main": "dist/data-frame.js",
   "module": "dist/data-frame.es.js",
