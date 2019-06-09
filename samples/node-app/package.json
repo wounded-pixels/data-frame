@@ -13,6 +13,7 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
-    "@types/node": "~10.10.3"
+    "@types/node": "~10.10.3",
+    "@wounded-pixels/data-frame": "latest"
   }
 }
