@@ -1,7 +1,7 @@
 import { Column } from './Column';
 import { ColumnSummary } from './ColumnSummary';
 
-import { clamp } from '../util/math';
+import { clamp, percentile } from '../util/math';
 
 export class NumericalColumn extends Column {
   private readonly theValues: (number | null)[];
@@ -68,24 +68,7 @@ export class NumericalColumn extends Column {
       return null;
     }
 
-    const ratio = clamp(0, 1, rawRatio);
-
-    if (this.sortedValues.length % 2 === 0) {
-      // even length
-      const decimalIndex = ratio * this.sortedValues.length;
-      const wholeIndex = Math.min(
-        Math.round(decimalIndex),
-        this.sortedValues.length - 1
-      );
-      return (
-        (this.sortedValues[wholeIndex] + this.sortedValues[wholeIndex - 1]) / 2
-      );
-    } else {
-      // odd length
-      const decimalIndex = ratio * (this.sortedValues.length - 1);
-      const wholeIndex = Math.ceil(decimalIndex);
-      return this.sortedValues[wholeIndex];
-    }
+    return percentile(rawRatio, this.sortedValues);
   }
 
   bind(bottom: Column): Column {

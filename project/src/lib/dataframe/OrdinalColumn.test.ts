@@ -11,9 +11,11 @@ test('basics', () => {
   expect(column.name()).toEqual('size');
   expect(column.categories().join()).toEqual('small,medium,large');
   expect(column.values().join()).toEqual('large,large,small,small,,,medium');
+  expect(column.percentile(0.0)).toBe('small');
   expect(column.percentile(0.25)).toBe('small');
   expect(column.median()).toBe('medium');
   expect(column.percentile(0.75)).toBe('large');
+  expect(column.percentile(1.0)).toBe('large');
 });
 
 test('from indexes', () => {
@@ -39,7 +41,7 @@ test('parse', () => {
   );
   expect(sizes.length()).toBe(8);
   expect(sizes.values().join()).toBe('small,,,large,,,medium,small');
-  expect(sizes.median()).toBe('small');
+  expect(sizes.median()).toBe('medium');
 });
 
 test('empty', () => {
