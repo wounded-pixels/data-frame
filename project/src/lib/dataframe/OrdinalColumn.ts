@@ -1,7 +1,7 @@
 import { Column } from './Column';
 import { ColumnSummary } from './ColumnSummary';
 
-import { clamp } from '../util/math';
+import { clamp, percentile } from '../util/math';
 
 export class OrdinalColumn extends Column {
   private readonly indexes: (number | null)[] = [];
@@ -52,31 +52,10 @@ export class OrdinalColumn extends Column {
       return null;
     }
 
-    const ratio = clamp(0, 1, rawRatio);
-
-    if (this.sortedIndexes.length % 2 === 0) {
-      // even length
-      const decimalIndex = ratio * this.sortedIndexes.length;
-      const wholeIndex = Math.min(
-        Math.round(decimalIndex),
-        this.sortedIndexes.length - 1
-      );
-
-      const averageIndex =
-        (this.sortedIndexes[wholeIndex] + this.sortedIndexes[wholeIndex - 1]) /
-        2;
-      const index = clamp(
-        0,
-        this.orderedCategories.length - 1,
-        Math.round(averageIndex)
-      );
-      return this.orderedCategories[this.sortedIndexes[index]];
-    } else {
-      // odd length
-      const decimalIndex = ratio * (this.sortedIndexes.length - 1);
-      const index = Math.ceil(decimalIndex);
-      return this.orderedCategories[this.sortedIndexes[index]];
-    }
+    const percentileIndex = Math.floor(
+      percentile(rawRatio, this.sortedIndexes)
+    );
+    return this.orderedCategories[percentileIndex];
   }
 
   /** copy of values */

@@ -185,7 +185,7 @@ test('percentile', () => {
   const medianBirthDate = heightsWeightsGenders
     .column('birth date')
     .percentile(0.5) as Date;
-  expect(medianBirthDate.getFullYear()).toBe(1953);
+  expect(medianBirthDate.getFullYear()).toBe(1955);
   expect(heightsWeightsGenders.column('birth date').median()).toEqual(
     medianBirthDate
   );
@@ -227,11 +227,11 @@ test('summary', () => {
   expect(minDate.toString().substring(0, 15)).toEqual('Fri Apr 13 1951');
   expect(maxDate.toString().substring(0, 15)).toEqual('Thu May 05 1955');
   expect(twentyFifthPercentileDate.toString().substring(0, 15)).toEqual(
-    'Thu Apr 23 1953'
+    'Thu May 05 1955'
   );
-  expect(medianDate.toString().substring(0, 15)).toEqual('Thu Apr 23 1953');
+  expect(medianDate.toString().substring(0, 15)).toEqual('Thu May 05 1955');
   expect(seventyFifthPercentileDate.toString().substring(0, 15)).toEqual(
-    'Thu Apr 23 1953'
+    'Thu May 05 1955'
   );
 });
 
@@ -247,9 +247,9 @@ test('summary string', () => {
   expect(birthSummary).toContain('Name: birth date');
   expect(birthSummary).toContain('Min: Fri Apr 13 1951');
   expect(birthSummary).toContain('Max: Thu May 05 1955');
-  expect(birthSummary).toContain('25%: Thu Apr 23 1953');
-  expect(birthSummary).toContain('50%: Thu Apr 23 1953');
-  expect(birthSummary).toContain('75%: Thu Apr 23 1953');
+  expect(birthSummary).toContain('25%: Thu May 05 1955');
+  expect(birthSummary).toContain('50%: Thu May 05 1955');
+  expect(birthSummary).toContain('75%: Thu May 05 1955');
 
   const genderSummary = heightsWeightsGenders.column('gender').summaryString();
   expect(genderSummary).toBe('Name: gender    Categories: female, male');

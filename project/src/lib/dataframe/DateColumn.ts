@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Column } from './Column';
 import { ColumnSummary } from './ColumnSummary';
 
-import { clamp } from '../util/math';
+import { clamp, percentile } from '../util/math';
 
 export class DateColumn extends Column {
   private readonly timesInMilliseconds: (number | null)[];
@@ -76,27 +76,11 @@ export class DateColumn extends Column {
       return null;
     }
 
-    const ratio = clamp(0, 1, rawRatio);
-
-    if (this.sortedTimesInMilliseconds.length % 2 === 0) {
-      // even length
-      const decimalIndex = ratio * this.sortedTimesInMilliseconds.length;
-      const wholeIndex = Math.min(
-        Math.round(decimalIndex),
-        this.sortedTimesInMilliseconds.length - 1
-      );
-
-      const averageTimeInMilliseconds =
-        (this.sortedTimesInMilliseconds[wholeIndex] +
-          this.sortedTimesInMilliseconds[wholeIndex - 1]) /
-        2;
-      return new Date(averageTimeInMilliseconds);
-    } else {
-      // odd length
-      const decimalIndex = ratio * (this.sortedTimesInMilliseconds.length - 1);
-      const wholeIndex = Math.ceil(decimalIndex);
-      return new Date(this.sortedTimesInMilliseconds[wholeIndex]);
-    }
+    const percentileTimeInMilliseconds = percentile(
+      rawRatio,
+      this.sortedTimesInMilliseconds
+    );
+    return new Date(percentileTimeInMilliseconds);
   }
 
   summary(): ColumnSummary {
