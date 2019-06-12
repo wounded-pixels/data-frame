@@ -44,5 +44,6 @@ export abstract class Column {
   abstract min(): number | Date | null;
   abstract max(): number | Date | null;
   abstract median(): number | string | Date | null;
+  /** percentile by nearest-rank method */
   abstract percentile(rawRatio: number): number | string | Date | null;
 }
