@@ -16,6 +16,7 @@ test('even percentile case', () => {
   expect(percentile(0.5, sortedValues)).toBe(14);
   expect(percentile(0.75, sortedValues)).toBe(21);
   expect(percentile(0.99, sortedValues)).toBe(31);
+  expect(percentile(1.0, sortedValues)).toBe(31);
 });
 
 test('odd percentile case', () => {
@@ -26,4 +27,5 @@ test('odd percentile case', () => {
   expect(percentile(0.5, sortedValues)).toBe(13);
   expect(percentile(0.75, sortedValues)).toBe(20);
   expect(percentile(0.99, sortedValues)).toBe(23);
+  expect(percentile(1.0, sortedValues)).toBe(23);
 });

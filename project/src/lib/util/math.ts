@@ -2,6 +2,7 @@ export const clamp = (min: number, max: number, inputValue: number): number => {
   return Math.max(min, Math.min(max, inputValue));
 };
 
+/** percentile by nearest-rank method */
 export const percentile = (
   rawRatio: number,
   sortedValues: number[]
