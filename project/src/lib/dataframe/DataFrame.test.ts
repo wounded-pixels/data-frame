@@ -1,9 +1,10 @@
 import { NumericalColumn } from './NumericalColumn';
-import { DataFrame } from './DataFrame';
 import { CategoricalColumn } from './CategoricalColumn';
 import { TextColumn } from './TextColumn';
 import { DateColumn } from './DateColumn';
 import { OrdinalColumn } from './OrdinalColumn';
+import { DataFrame } from './DataFrame';
+import { fromColumns } from './DataFrameStorage';
 
 const nameColumn = new TextColumn('name', ['Fred', 'Barney', 'Wilma']);
 const heightColumn = new NumericalColumn('height', [72, 68, 61]);
@@ -24,7 +25,7 @@ const shirtSizeColumn = new OrdinalColumn(
   ['XL', 'L', '']
 );
 
-const heightsWeightsGenders = new DataFrame([
+const heightsWeightsGenders: DataFrame = fromColumns([
   nameColumn,
   heightColumn,
   weightColumn,
@@ -53,13 +54,13 @@ test('uneven columns in construction', () => {
   const longColumn = new NumericalColumn('long', [1, 2, 3, 4]);
 
   const badConstruction = () => {
-    new DataFrame([shortColumn, longColumn]);
+    fromColumns([shortColumn, longColumn]);
   };
   expect(badConstruction).toThrow(Error);
 });
 
 test('silly construction', () => {
-  const empty = new DataFrame([]);
+  const empty: DataFrame = fromColumns([]);
   expect(empty.dimensions()).toEqual({ rows: 0, columns: 0 });
 });
 
@@ -132,7 +133,7 @@ test('row bind', () => {
     ['S', 'M', 'L', 'XL'],
     ['XL', 'L']
   );
-  const heightsWeightsGenders1 = new DataFrame([
+  const heightsWeightsGenders1: DataFrame = fromColumns([
     names1,
     heights1,
     weights1,
@@ -150,7 +151,7 @@ test('row bind', () => {
     ['M', 'S']
   );
 
-  const heightsWeightsGenders2 = new DataFrame([
+  const heightsWeightsGenders2: DataFrame = fromColumns([
     names2,
     weights2,
     heights2,
@@ -158,10 +159,7 @@ test('row bind', () => {
     shirtSizes2,
   ]);
 
-  const combined = DataFrame.rowBind(
-    heightsWeightsGenders1,
-    heightsWeightsGenders2
-  );
+  const combined = heightsWeightsGenders1.rowBind(heightsWeightsGenders2);
   expect(combined.dimensions()).toEqual({ rows: 4, columns: 5 });
   expect(combined.column('height').mean()).toEqual((72 + 68 + 77 + 78) / 4);
   expect(combined.column('name').values()[2]).toBe('Wilma');
