@@ -1,5 +1,5 @@
 import { DataFrame } from './DataFrame';
-import { Type } from './DataFrameParser';
+import { parse, parseCSV, Type } from './DataFrameParser';
 
 const shirtSizes = ['S', 'M', 'L', 'XL'];
 
@@ -33,7 +33,7 @@ const columnAsString = (df: DataFrame, columnName: string) => {
 };
 
 test('parse csv perfect data', () => {
-  const df = DataFrame.parseCSV(csv, {
+  const df = parseCSV(csv, {
     columns: { 'shirt size': { orderedCategories: shirtSizes } },
   });
   expect(df.dimensions().columns).toEqual(6);
@@ -58,7 +58,7 @@ test('parse csv perfect data', () => {
 });
 
 test('parse perfect data', () => {
-  const df = DataFrame.parse(csv, ',', {
+  const df = parse(csv, ',', {
     columns: { 'shirt size': { orderedCategories: shirtSizes } },
   });
   expect(df.dimensions().columns).toEqual(6);
@@ -69,7 +69,7 @@ test('parse perfect data', () => {
 });
 
 test('parse csv missing data', () => {
-  const df = DataFrame.parseCSV(csvWithMissing, {
+  const df = parseCSV(csvWithMissing, {
     columns: { 'shirt size': { orderedCategories: shirtSizes } },
   });
   expect(df.dimensions().columns).toEqual(6);
@@ -84,7 +84,7 @@ test('parse csv missing data', () => {
 });
 
 test('parse provided header', () => {
-  const df = DataFrame.parse(csvNoHeader, ',', {
+  const df = parse(csvNoHeader, ',', {
     columnNames: ['Name', 'Gender', 'Height', 'Weight', 'DOB', 'Size'],
     columns: {
       DOB: { dateFormat: 'YYYY-MM-DD' },
@@ -108,7 +108,7 @@ test('parse provided header', () => {
 });
 
 test('parse force text column', () => {
-  const df = DataFrame.parseCSV(csv, {
+  const df = parseCSV(csv, {
     columns: { name: { type: Type.Text } },
   });
   expect(df.dimensions().columns).toEqual(6);
@@ -123,7 +123,7 @@ test('parse force text column', () => {
 });
 
 test('ordinal requires hint', () => {
-  const df = DataFrame.parseCSV(csv);
+  const df = parseCSV(csv);
   expect(df.dimensions().columns).toEqual(6);
   expect(df.dimensions().rows).toEqual(3);
   expect(columnAsString(df, 'name')).toEqual('fred,wilma,barney');
@@ -135,7 +135,7 @@ test('ordinal requires hint', () => {
 });
 
 test('ordinal requires hint', () => {
-  const df = DataFrame.parse(csv, ',');
+  const df = parse(csv, ',');
   expect(df.dimensions().columns).toEqual(6);
   expect(df.dimensions().rows).toEqual(3);
   expect(columnAsString(df, 'name')).toEqual('fred,wilma,barney');
@@ -147,7 +147,7 @@ test('ordinal requires hint', () => {
 });
 
 test('parse rename headers', () => {
-  const df = DataFrame.parse(csv, ',', {
+  const df = parse(csv, ',', {
     replacementNames: [
       'Name',
       'Gender',
