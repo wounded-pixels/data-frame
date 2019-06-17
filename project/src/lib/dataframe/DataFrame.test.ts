@@ -256,3 +256,17 @@ test('summary string', () => {
   const expectedFirstFive = `3 rows by 5 columns\nName: name\nName: height    Min: 61 Max: 72    25%: 68  50%: 68  75%: 72\nName: weight    Min: 101 Max: 230    25%: 190  50%: 190  75%: 230\nName: gender    Categories: female, male\nName: birth date `;
   expect(dfSummaryString.startsWith(expectedFirstFive));
 });
+
+test('to csv', () => {
+  const csv: string = heightsWeightsGenders.toCSV();
+
+  const rows = csv.split('\n');
+  expect(rows.length).toBe(4);
+  expect(rows[0]).toEqual('name,height,weight,gender,birth date,shirt size');
+  expect(rows[1]).toContain('Fred,72,230,male,Fri Apr 13 1951');
+  expect(rows[2]).toContain('Barney,68,190,male,Thu May 05 1955');
+  expect(rows[3]).toEqual('Wilma,61,101,female,,');
+
+  expect(rows[1]).toContain(',XL');
+  expect(rows[2]).toContain('L');
+});
