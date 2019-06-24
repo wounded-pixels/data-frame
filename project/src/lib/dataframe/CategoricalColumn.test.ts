@@ -86,3 +86,8 @@ test('no median', () => {
     column.median();
   }).toThrow(Error);
 });
+
+test('value', () => {
+  expect(column.value(0)).toEqual('honda');
+  expect(column.value(5)).toBeNull();
+});

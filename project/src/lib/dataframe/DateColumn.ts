@@ -34,6 +34,11 @@ export class DateColumn extends Column {
     );
   }
 
+  value(index: number): Date | null {
+    const valueInMilliseconds = this.timesInMilliseconds[index];
+    return valueInMilliseconds ? new Date(valueInMilliseconds) : null;
+  }
+
   length(): number {
     return this.timesInMilliseconds.length;
   }

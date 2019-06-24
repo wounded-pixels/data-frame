@@ -257,6 +257,17 @@ test('summary string', () => {
   expect(dfSummaryString.startsWith(expectedFirstFive));
 });
 
+test('as object', () => {
+  const firstRow = heightsWeightsGenders.asObject(0);
+  expect(firstRow.name).toEqual('Fred');
+  expect(firstRow.height).toEqual(72);
+});
+
+test('as object out of bounds', () => {
+  const noRow = heightsWeightsGenders.asObject(3);
+  expect(noRow).toBeNull();
+});
+
 test('to csv', () => {
   const csv: string = heightsWeightsGenders.toCSV();
 

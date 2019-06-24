@@ -115,3 +115,11 @@ test('no mean', () => {
     dateColumn.mean();
   }).toThrow(Error);
 });
+
+test('value', () => {
+  const firstDate = dateColumn.value(0) as Date;
+  expect(firstDate.getFullYear()).toBe(2019);
+
+  const noDate = dateColumn.value(5);
+  expect(noDate).toBeNull();
+});

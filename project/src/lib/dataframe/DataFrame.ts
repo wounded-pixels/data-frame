@@ -2,6 +2,7 @@ import { createRange, removeValue } from '../util/arrays';
 import { randomInt } from '../util/random';
 
 import { Column } from './Column';
+import { DataFrameFilter } from './DataFrameFilter';
 
 export abstract class DataFrame {
   abstract column(name: string): Column;
@@ -56,6 +57,24 @@ export abstract class DataFrame {
     } columns\n${columnSummaryStrings}`;
   }
 
+  filter(): DataFrameFilter {
+    return new DataFrameFilter(this);
+  }
+
+  asObject(rowIndex: number): any {
+    if (rowIndex < 0 || rowIndex >= this.dimensions().rows) {
+      return null;
+    }
+
+    const obj: any = {};
+    this.columns().forEach((column: Column) => {
+      const name: string = column.name();
+      obj[name] = column.value(rowIndex);
+    });
+
+    return obj;
+  }
+  
   rowValues(index: number): (number | string | Date | null)[] {
     return this.columns().map(column => column.values()[index]);
   }
