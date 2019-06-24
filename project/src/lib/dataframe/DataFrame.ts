@@ -69,9 +69,7 @@ export abstract class DataFrame {
     const obj: any = {};
     this.columns().forEach((column: Column) => {
       const name: string = column.name();
-      const value = column.values()[rowIndex];
-
-      obj[name] = value;
+      obj[name] = column.value(rowIndex);
     });
 
     return obj;

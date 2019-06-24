@@ -39,6 +39,10 @@ export class NumericalColumn extends Column {
     return [...this.theValues];
   }
 
+  value(index: number): number | null {
+    return this.theValues[index];
+  }
+
   length(): number {
     return this.theValues.length;
   }

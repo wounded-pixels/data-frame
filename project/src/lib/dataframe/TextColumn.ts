@@ -14,6 +14,10 @@ export class TextColumn extends Column {
     return [...this.theValues];
   }
 
+  value(index: number): string | null {
+    return this.theValues[index];
+  }
+
   length(): number {
     return this.theValues.length;
   }

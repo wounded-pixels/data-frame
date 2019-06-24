@@ -65,6 +65,13 @@ export class OrdinalColumn extends Column {
     });
   }
 
+  value(index: number): string | null {
+    const categoryIndex = this.indexes[index];
+    return categoryIndex !== null && categoryIndex !== undefined
+      ? this.orderedCategories[categoryIndex]
+      : null;
+  }
+
   /** copy of categories */
   categories(): string[] {
     return [...this.orderedCategories];

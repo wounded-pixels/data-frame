@@ -32,6 +32,7 @@ export abstract class Column {
   // subclasses must implement these required methods
   abstract length(): number;
   abstract values(): (number | string | Date | null)[];
+  abstract value(index: number): number | string | Date | null;
   abstract fromRowIndexes(indexes: number[]): Column;
   abstract bind(bottom: Column): Column;
   abstract summary(): ColumnSummary;

@@ -74,3 +74,8 @@ test('no max', () => {
     column.max();
   }).toThrow(Error);
 });
+
+test('value', () => {
+  expect(column.value(0)).toEqual('large');
+  expect(column.value(7)).toBeNull();
+});
