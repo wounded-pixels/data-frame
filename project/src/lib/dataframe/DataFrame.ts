@@ -74,4 +74,22 @@ export abstract class DataFrame {
 
     return obj;
   }
+  
+  rowValues(index: number): (number | string | Date | null)[] {
+    return this.columns().map(column => column.values()[index]);
+  }
+
+  toCSV(): string {
+    const header: string = this.columns()
+      .map(column => column.name())
+      .join(',');
+
+    let data = '';
+    const { rows: rowCount, columns: columnCount } = this.dimensions();
+    for (let rowCtr = 0; rowCtr < rowCount; rowCtr++) {
+      data += this.rowValues(rowCtr).join(',');
+      data += '\n';
+    }
+    return header + '\n' + data.trim();
+  }
 }
