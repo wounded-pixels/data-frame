@@ -256,3 +256,14 @@ test('summary string', () => {
   const expectedFirstFive = `3 rows by 5 columns\nName: name\nName: height    Min: 61 Max: 72    25%: 68  50%: 68  75%: 72\nName: weight    Min: 101 Max: 230    25%: 190  50%: 190  75%: 230\nName: gender    Categories: female, male\nName: birth date `;
   expect(dfSummaryString.startsWith(expectedFirstFive));
 });
+
+test('as object', () => {
+  const firstRow = heightsWeightsGenders.asObject(0);
+  expect(firstRow.name).toEqual('Fred');
+  expect(firstRow.height).toEqual(72);
+});
+
+test('as object out of bounds', () => {
+  const noRow = heightsWeightsGenders.asObject(3);
+  expect(noRow).toBeNull();
+});
