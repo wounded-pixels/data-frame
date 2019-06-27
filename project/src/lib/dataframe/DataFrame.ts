@@ -61,7 +61,7 @@ export abstract class DataFrame {
     return new DataFrameFilter(this);
   }
 
-  asObject(rowIndex: number): any {
+  toObject(rowIndex: number): any {
     if (rowIndex < 0 || rowIndex >= this.dimensions().rows) {
       return null;
     }
@@ -74,7 +74,21 @@ export abstract class DataFrame {
 
     return obj;
   }
-  
+
+  toArray(): any[] {
+    const { rows: rowCount } = this.dimensions();
+    const results = [];
+    for (let ctr = 0; ctr < rowCount; ctr++) {
+      results.push(this.toObject(ctr));
+    }
+
+    return results;
+  }
+
+  toJSON(): string {
+    return JSON.stringify(this.toArray());
+  }
+
   rowValues(index: number): (number | string | Date | null)[] {
     return this.columns().map(column => column.values()[index]);
   }

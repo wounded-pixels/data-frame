@@ -31,7 +31,7 @@ export class DataFrameFilter {
 
   onRow(predicate: ObjectPredicate) {
     this.rowIndexes = this.rowIndexes.filter(index => {
-      const objectOfRow = this.source.asObject(index);
+      const objectOfRow = this.source.toObject(index);
       return predicate(objectOfRow);
     });
 
