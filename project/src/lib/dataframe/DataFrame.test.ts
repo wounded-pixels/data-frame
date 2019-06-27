@@ -258,13 +258,13 @@ test('summary string', () => {
 });
 
 test('as object', () => {
-  const firstRow = heightsWeightsGenders.asObject(0);
+  const firstRow = heightsWeightsGenders.toObject(0);
   expect(firstRow.name).toEqual('Fred');
   expect(firstRow.height).toEqual(72);
 });
 
 test('as object out of bounds', () => {
-  const noRow = heightsWeightsGenders.asObject(3);
+  const noRow = heightsWeightsGenders.toObject(3);
   expect(noRow).toBeNull();
 });
 
@@ -280,4 +280,21 @@ test('to csv', () => {
 
   expect(rows[1]).toContain(',XL');
   expect(rows[2]).toContain('L');
+});
+
+test('to array', () => {
+  const results = heightsWeightsGenders.toArray();
+  expect(results.length).toBe(3);
+  expect(results[0].name).toBe('Fred');
+  expect(results[1].height).toBe(68);
+  expect(results[2].weight).toBe(101);
+  expect(results[2].gender).toBe('female');
+  expect(results[2]['birth date']).toBeNull();
+  expect(results[2]['shirt size']).toBeNull();
+  expect(results[1]['shirt size']).toBe('L');
+});
+
+test('to json', () => {
+  const result: string = heightsWeightsGenders.toJSON();
+  expect(result).toContain(`\"name\":\"Fred\"`);
 });
