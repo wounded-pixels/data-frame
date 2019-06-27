@@ -1,10 +1,12 @@
-import { NumericalColumn } from './NumericalColumn';
-import { CategoricalColumn } from './CategoricalColumn';
-import { TextColumn } from './TextColumn';
-import { DateColumn } from './DateColumn';
-import { OrdinalColumn } from './OrdinalColumn';
-import { DataFrame } from './DataFrame';
-import { fromColumns } from './DataFrameStorage';
+import {
+  CategoricalColumn,
+  DateColumn,
+  DataFrame,
+  NumericalColumn,
+  OrdinalColumn,
+  TextColumn,
+} from '../../data-frame';
+import { fromColumns } from '../../data-frame';
 
 const nameColumn = new TextColumn('name', ['Fred', 'Barney', 'Wilma']);
 const heightColumn = new NumericalColumn('height', [72, 68, 61]);

@@ -2,7 +2,7 @@ export { CategoricalColumn } from './lib/dataframe/CategoricalColumn';
 export { Column } from './lib/dataframe/Column';
 export * from './lib/dataframe/ColumnSummary';
 export { DataFrame } from './lib/dataframe/DataFrame';
-export { parse, parseCSV } from './lib/dataframe/DataFrameParser';
+export { parse, parseCSV, Type } from './lib/dataframe/DataFrameParser';
 export { DateColumn } from './lib/dataframe/DateColumn';
 export { NumericalColumn } from './lib/dataframe/NumericalColumn';
 export { OrdinalColumn } from './lib/dataframe/OrdinalColumn';

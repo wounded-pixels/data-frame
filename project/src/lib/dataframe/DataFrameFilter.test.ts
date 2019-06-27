@@ -1,4 +1,4 @@
-import { parseCSV } from './DataFrameParser';
+import { parseCSV } from '../../data-frame';
 
 const shirtSizes = ['S', 'M', 'L', 'XL'];
 
