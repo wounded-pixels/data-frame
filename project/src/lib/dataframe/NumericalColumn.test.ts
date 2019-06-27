@@ -1,4 +1,4 @@
-import { NumericalColumn } from './NumericalColumn';
+import { NumericalColumn } from '../../data-frame';
 
 const column = new NumericalColumn('numbers', [62, 50, 55]);
 

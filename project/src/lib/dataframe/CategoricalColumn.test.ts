@@ -1,4 +1,4 @@
-import { CategoricalColumn } from './CategoricalColumn';
+import { CategoricalColumn } from '../../data-frame';
 
 const column = new CategoricalColumn('make', [
   'honda',

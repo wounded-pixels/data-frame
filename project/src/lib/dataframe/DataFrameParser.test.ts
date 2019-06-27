@@ -1,5 +1,5 @@
-import { DataFrame } from './DataFrame';
-import { parse, parseCSV, Type } from './DataFrameParser';
+import { DataFrame, Type } from '../../data-frame';
+import { parse, parseCSV } from '../../data-frame';
 
 const shirtSizes = ['S', 'M', 'L', 'XL'];
 

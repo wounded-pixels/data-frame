@@ -1,4 +1,4 @@
-import { DateColumn } from './DateColumn';
+import { DateColumn } from '../../data-frame';
 
 const dateColumn = new DateColumn('date', [
   new Date(2019, 0, 1),

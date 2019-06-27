@@ -1,4 +1,4 @@
-import { TextColumn } from './TextColumn';
+import { TextColumn } from '../../data-frame';
 
 const column = new TextColumn('text', [
   'hi there',

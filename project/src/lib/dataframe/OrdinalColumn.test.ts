@@ -1,4 +1,4 @@
-import { OrdinalColumn } from './OrdinalColumn';
+import { OrdinalColumn } from '../../data-frame';
 
 const column = new OrdinalColumn(
   'size',
