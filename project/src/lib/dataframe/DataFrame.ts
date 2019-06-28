@@ -3,6 +3,7 @@ import { randomInt } from '../util/random';
 
 import { Column } from './Column';
 import { DataFrameFilter } from './DataFrameFilter';
+import { ColumnHints, Value } from './Types';
 
 export abstract class DataFrame {
   abstract column(name: string): Column;
@@ -10,6 +11,11 @@ export abstract class DataFrame {
   abstract dimensions(): { rows: number; columns: number };
   abstract fromRowIndexes(indexes: number[]): DataFrame;
   abstract rowBind(bottom: DataFrame): DataFrame;
+  abstract createColumn(
+    name: string,
+    valueFunction: (row: any) => string | number | null,
+    hints: ColumnHints
+  ): void;
 
   sampleWithReplacement(size: number): DataFrame {
     const indexes: number[] = [];

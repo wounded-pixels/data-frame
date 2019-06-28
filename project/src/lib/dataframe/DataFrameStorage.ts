@@ -1,5 +1,7 @@
 import { DataFrame } from './DataFrame';
 import { Column } from './Column';
+import { ColumnHints } from './Types';
+import { parseColumn } from './DataFrameParser';
 
 export class DataFrameStorage extends DataFrame {
   private readonly height: number;
@@ -46,6 +48,15 @@ export class DataFrameStorage extends DataFrame {
     });
 
     return new DataFrameStorage(combinedColumns);
+  }
+
+  createColumn(
+    name: string,
+    valueFunction: (row: any) => string | number | null,
+    hints: ColumnHints
+  ): void {
+    const rawValues = this.toArray().map(valueFunction);
+    this.columnMap[name] = parseColumn(name, rawValues, hints);
   }
 }
 
