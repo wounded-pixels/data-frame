@@ -75,6 +75,12 @@ test('no max', () => {
   }).toThrow(Error);
 });
 
+test('no mutate', () => {
+  expect(() => {
+    column.mutate(v => false, v => v);
+  }).toThrow(Error);
+});
+
 test('value', () => {
   expect(column.value(0)).toEqual('large');
   expect(column.value(7)).toBeNull();

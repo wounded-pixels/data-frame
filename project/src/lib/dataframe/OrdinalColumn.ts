@@ -2,6 +2,7 @@ import { Column } from './Column';
 import { ColumnSummary } from './ColumnSummary';
 
 import { clamp, percentile } from '../util/math';
+import { Value, ValueMutator, ValuePredicate } from './Types';
 
 export class OrdinalColumn extends Column {
   private readonly indexes: (number | null)[] = [];
@@ -41,6 +42,10 @@ export class OrdinalColumn extends Column {
 
   max(): number {
     throw new Error('no max for Ordinal column');
+  }
+
+  mutate(predicate: ValuePredicate, mutator: ValueMutator): Value {
+    throw new Error('no percentile for Ordinal column');
   }
 
   median(): string | null {

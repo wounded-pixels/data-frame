@@ -1,8 +1,6 @@
 import { DataFrame } from './DataFrame';
 import { createRange } from '../util/arrays';
-
-export type ValuePredicate = (value: string | number | Date) => boolean;
-export type ObjectPredicate = (obj: any) => boolean;
+import { ObjectPredicate, ValuePredicate } from './Types';
 
 export class DataFrameFilter {
   private source: DataFrame;

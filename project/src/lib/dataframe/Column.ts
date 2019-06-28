@@ -1,4 +1,5 @@
 import { ColumnSummary } from './ColumnSummary';
+import { Value, ValueMutator, ValuePredicate } from './Types';
 
 export abstract class Column {
   private readonly aName: string;
@@ -47,4 +48,5 @@ export abstract class Column {
   abstract median(): number | string | Date | null;
   /** percentile by nearest-rank method */
   abstract percentile(rawRatio: number): number | string | Date | null;
+  abstract mutate(predicate: ValuePredicate, mutator: ValueMutator): void;
 }
