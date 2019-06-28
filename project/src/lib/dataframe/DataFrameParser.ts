@@ -6,28 +6,7 @@ import { TextColumn } from './TextColumn';
 import { DateColumn } from './DateColumn';
 import { OrdinalColumn } from './OrdinalColumn';
 import { DataFrameStorage } from './DataFrameStorage';
-
-export enum Type {
-  Text,
-}
-
-type ColumnHints = {
-  type?: Type;
-  dateFormat?: string;
-  orderedCategories?: string[];
-};
-
-interface ColumnMap {
-  [key: string]: ColumnHints;
-}
-
-export type ParseDelimiter = ',' | '|';
-
-export type ParsingHints = {
-  columnNames?: string[];
-  replacementNames?: string[];
-  columns?: ColumnMap;
-};
+import { ParseDelimiter, ParsingHints, Type } from './Types';
 
 export function parseCSV(
   csv: string,

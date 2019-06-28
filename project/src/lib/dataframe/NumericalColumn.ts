@@ -2,15 +2,19 @@ import { Column } from './Column';
 import { ColumnSummary } from './ColumnSummary';
 
 import { clamp, percentile } from '../util/math';
+import { Value, ValueMutator, ValuePredicate } from './Types';
 
 export class NumericalColumn extends Column {
-  private readonly theValues: (number | null)[];
-  private readonly sortedValues: number[];
+  private theValues: (number | null)[];
+  private sortedValues: number[] = [];
 
   constructor(name: string, values: (number | null)[]) {
     super(name);
     this.theValues = values;
+    this.sort();
+  }
 
+  private sort() {
     const justNumbers = this.theValues.filter(
       value => value !== null
     ) as number[];
@@ -97,6 +101,17 @@ export class NumericalColumn extends Column {
       median: this.median(),
       seventyFifthPercentile: this.percentile(0.75),
     };
+  }
+
+  mutate(predicate: ValuePredicate, mutator: ValueMutator) {
+    this.theValues = this.theValues.map(value => {
+      const mutated = predicate(value)
+        ? mutator(value)
+        : (value as number | null);
+      return mutated as number | null;
+    });
+
+    this.sort();
   }
 
   private nonNullLength(): number {

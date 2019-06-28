@@ -26,7 +26,7 @@ test('single column predicate', () => {
 test('single column with null', () => {
   const lightWeights = df
     .filter()
-    .on('weight', w => w < 100)
+    .on('weight', w => w !== null && w < 100)
     .take();
   expect(lightWeights.column('weight').mean()).toBe(80);
   expect(lightWeights.dimensions().rows).toBe(2);

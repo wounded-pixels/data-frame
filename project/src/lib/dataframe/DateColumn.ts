@@ -4,10 +4,11 @@ import { Column } from './Column';
 import { ColumnSummary } from './ColumnSummary';
 
 import { clamp, percentile } from '../util/math';
+import { ValueMutator, ValuePredicate } from './Types';
 
 export class DateColumn extends Column {
-  private readonly timesInMilliseconds: (number | null)[];
-  private readonly sortedTimesInMilliseconds: number[];
+  private timesInMilliseconds: (number | null)[];
+  private sortedTimesInMilliseconds: number[] = [];
 
   constructor(name: string, values: (Date | number | null)[]) {
     super(name);
@@ -19,6 +20,10 @@ export class DateColumn extends Column {
       return typeof value === 'object' ? value.getTime() : value;
     });
 
+    this.sort();
+  }
+
+  private sort() {
     const justNumbers = this.timesInMilliseconds.filter(
       value => value !== null
     ) as number[];
@@ -109,6 +114,23 @@ export class DateColumn extends Column {
 
   sum(): number {
     throw new Error('no sum for Date column');
+  }
+
+  mutate(predicate: ValuePredicate, mutator: ValueMutator) {
+    this.timesInMilliseconds = this.timesInMilliseconds.map(
+      millisecondsValue => {
+        const value =
+          millisecondsValue !== null ? new Date(millisecondsValue) : null;
+        const mutatedDate: Date | null = predicate(value)
+          ? (mutator(value) as Date | null)
+          : value;
+        const mutatedMilliseconds =
+          mutatedDate !== null ? mutatedDate.getTime() : null;
+        return mutatedMilliseconds as number | null;
+      }
+    );
+
+    this.sort();
   }
 
   // returns a DateColumn unless less than acceptanceRatio of non-empty values are non-numeric

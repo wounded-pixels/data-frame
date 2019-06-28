@@ -1,8 +1,9 @@
 import { Column } from './Column';
 import { ColumnSummary } from './ColumnSummary';
+import { Value, ValueMutator, ValuePredicate } from './Types';
 
 export class TextColumn extends Column {
-  private readonly theValues: (string | null)[];
+  private theValues: (string | null)[];
 
   constructor(name: string, values: (string | null)[]) {
     super(name);
@@ -39,6 +40,13 @@ export class TextColumn extends Column {
     return {
       name: this.name(),
     };
+  }
+
+  mutate(predicate: ValuePredicate, mutator: ValueMutator): void {
+    this.theValues = this.theValues.map(value => {
+      const mutated = predicate(value) ? mutator(value) : value;
+      return mutated as string | null;
+    });
   }
 
   mean(): number {

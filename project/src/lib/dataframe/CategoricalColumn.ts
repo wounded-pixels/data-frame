@@ -1,5 +1,6 @@
 import { Column } from './Column';
 import { ColumnSummary } from './ColumnSummary';
+import { Value, ValueMutator, ValuePredicate } from './Types';
 
 export class CategoricalColumn extends Column {
   private readonly indexes: (number | null)[] = [];
@@ -40,6 +41,10 @@ export class CategoricalColumn extends Column {
   }
 
   percentile(rawRatio: number): number {
+    throw new Error('no percentile for Categorical column');
+  }
+
+  mutate(predicate: ValuePredicate, mutator: ValueMutator): Value {
     throw new Error('no percentile for Categorical column');
   }
 
