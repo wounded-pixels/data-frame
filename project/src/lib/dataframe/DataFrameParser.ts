@@ -6,13 +6,49 @@ import { TextColumn } from './TextColumn';
 import { DateColumn } from './DateColumn';
 import { OrdinalColumn } from './OrdinalColumn';
 import { DataFrameStorage } from './DataFrameStorage';
-import { ParseDelimiter, ParsingHints, Type } from './Types';
+import { ColumnHints, ParseDelimiter, ParsingHints, Type } from './Types';
 
 export function parseCSV(
   csv: string,
   parsingHints: ParsingHints = {}
 ): DataFrame {
   return parse(csv, ',', parsingHints);
+}
+
+export function parseColumn(
+  name: string,
+  rawValues: (string | number | null)[],
+  hints: ColumnHints
+) {
+  const { type, dateFormat, orderedCategories } = hints;
+  if (Type.Text === type) {
+    const coercedValues = rawValues.map(value =>
+      value !== null ? '' + value : null
+    );
+    return new TextColumn(name, coercedValues);
+  }
+
+  if (orderedCategories) {
+    const coercedValues = rawValues.map(value =>
+      value !== null ? '' + value : null
+    );
+    return new OrdinalColumn(name, orderedCategories, coercedValues);
+  }
+
+  const dateColumn = DateColumn.parse(name, rawValues, dateFormat);
+  if (dateColumn) {
+    return dateColumn;
+  }
+
+  const numericalColumn = NumericalColumn.parse(name, rawValues);
+  if (numericalColumn) {
+    return numericalColumn;
+  }
+
+  const coercedValues = rawValues.map(value =>
+    value !== null ? '' + value : null
+  );
+  return new CategoricalColumn(name, coercedValues);
 }
 
 export function parse(
@@ -58,38 +94,7 @@ export function parse(
     const rawValues = rawColumns[columnCtr];
 
     const hints = columnHints[name] || {};
-    const { type, dateFormat, orderedCategories } = hints;
-
-    if (type === Type.Text) {
-      const textColumn = new TextColumn(name, rawValues);
-      columns.push(textColumn);
-      continue;
-    }
-
-    if (orderedCategories) {
-      const ordinalColumn = new OrdinalColumn(
-        name,
-        orderedCategories,
-        rawValues
-      );
-      columns.push(ordinalColumn);
-      continue;
-    }
-
-    const dateColumn = DateColumn.parse(name, rawValues, dateFormat);
-    if (dateColumn) {
-      columns.push(dateColumn);
-      continue;
-    }
-
-    const numericalColumn = NumericalColumn.parse(name, rawValues);
-    if (numericalColumn) {
-      columns.push(numericalColumn);
-      continue;
-    }
-
-    const categoricalColumn = new CategoricalColumn(name, rawValues);
-    columns.push(categoricalColumn);
+    columns.push(parseColumn(name, rawValues, hints));
   }
 
   return new DataFrameStorage(columns);
