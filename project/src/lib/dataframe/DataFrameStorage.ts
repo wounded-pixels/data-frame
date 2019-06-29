@@ -53,7 +53,7 @@ export class DataFrameStorage extends DataFrame {
   createColumn(
     name: string,
     valueFunction: (row: any) => string | number | null,
-    hints: ColumnHints
+    hints: ColumnHints = {}
   ): void {
     const rawValues = this.toArray().map(valueFunction);
     this.columnMap[name] = parseColumn(name, rawValues, hints);

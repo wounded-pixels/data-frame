@@ -14,7 +14,7 @@ export abstract class DataFrame {
   abstract createColumn(
     name: string,
     valueFunction: (row: any) => string | number | null,
-    hints: ColumnHints
+    hints?: ColumnHints
   ): void;
 
   sampleWithReplacement(size: number): DataFrame {
