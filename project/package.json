@@ -8,7 +8,7 @@
     "dataframe",
     "data-frame"
   ],
-  "version": "0.2.2",
+  "version": "0.3.0",
   "private": false,
   "main": "dist/data-frame.js",
   "module": "dist/data-frame.es.js",

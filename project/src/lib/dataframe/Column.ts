@@ -14,20 +14,19 @@ export abstract class Column {
 
   summaryString(): string {
     const summary = this.summary();
-    const rangeString = summary.min
-      ? `Min: ${summary.min} Max: ${summary.max}    `
-      : '';
+    const minString = summary.min ? `Min: ${summary.min}  ` : '';
+    const maxString = summary.max ? `Max: ${summary.max}  ` : '';
     const percentiles = summary.twentyFifthPercentile
       ? `25%: ${summary.twentyFifthPercentile}  50%: ${summary.median}  75%: ${
           summary.seventyFifthPercentile
-        }`
+        }  `
       : '';
     const categories = summary.categories
       ? `Categories: ${summary.categories.join(', ')}`
       : '';
     return `Name: ${
       summary.name
-    }    ${rangeString}${percentiles}${categories}`.trim();
+    }    ${minString}${percentiles}${maxString}${categories}`.trim();
   }
 
   // subclasses must implement these required methods

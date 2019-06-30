@@ -10,10 +10,12 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
     "typescript": "^3.5.1"
   },
   "dependencies": {
     "@types/node": "~10.10.3",
-    "@wounded-pixels/data-frame": "^0.2.1"
+    "@wounded-pixels/data-frame": "^0.3.0"
   }
 }
