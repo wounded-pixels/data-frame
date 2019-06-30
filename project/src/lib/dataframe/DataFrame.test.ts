@@ -238,7 +238,7 @@ test('summary', () => {
 test('summary string', () => {
   const heightSummary = heightsWeightsGenders.column('height').summaryString();
   expect(heightSummary).toEqual(
-    'Name: height    Min: 61 Max: 72    25%: 68  50%: 68  75%: 72'
+    'Name: height    Min: 61  25%: 68  50%: 68  75%: 72  Max: 72'
   );
 
   const birthSummary = heightsWeightsGenders
