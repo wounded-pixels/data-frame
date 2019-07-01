@@ -16,6 +16,8 @@ test('basics', () => {
   expect(column.median()).toBe('medium');
   expect(column.percentile(0.75)).toBe('large');
   expect(column.percentile(1.0)).toBe('large');
+  expect(column.min()).toBe('small');
+  expect(column.max()).toBe('large');
 });
 
 test('from indexes', () => {
@@ -49,6 +51,8 @@ test('empty', () => {
   expect(empty.length()).toBe(0);
   expect(empty.values().join()).toBe('');
   expect(empty.median()).toBeNull();
+  expect(empty.min()).toBeNull();
+  expect(empty.max()).toBeNull();
 });
 
 test('no mean', () => {
@@ -60,18 +64,6 @@ test('no mean', () => {
 test('no sum', () => {
   expect(() => {
     column.sum();
-  }).toThrow(Error);
-});
-
-test('no min', () => {
-  expect(() => {
-    column.min();
-  }).toThrow(Error);
-});
-
-test('no max', () => {
-  expect(() => {
-    column.max();
   }).toThrow(Error);
 });
 

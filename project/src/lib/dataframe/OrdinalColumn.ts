@@ -36,12 +36,18 @@ export class OrdinalColumn extends Column {
     throw new Error('no sum for Ordinal column');
   }
 
-  min(): number {
-    throw new Error('no min for Ordinal column');
+  min(): string | null {
+    return this.sortedIndexes.length > 0
+      ? this.orderedCategories[this.sortedIndexes[0]]
+      : null;
   }
 
-  max(): number {
-    throw new Error('no max for Ordinal column');
+  max(): string | null {
+    return this.sortedIndexes.length > 0
+      ? this.orderedCategories[
+          this.sortedIndexes[this.sortedIndexes.length - 1]
+        ]
+      : null;
   }
 
   mutate(predicate: ValuePredicate, mutator: ValueMutator): Value {
