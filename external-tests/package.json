@@ -1,0 +1,14 @@
+{
+  "name": "external-tests",
+  "version": "1.0.0",
+  "description": "External tests for data-frame",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^24.8.0"
+  }
+}
