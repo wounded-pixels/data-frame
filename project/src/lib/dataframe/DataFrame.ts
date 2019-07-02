@@ -95,7 +95,7 @@ export abstract class DataFrame {
     return JSON.stringify(this.toArray());
   }
 
-  rowValues(index: number): (number | string | Date | null)[] {
+  rowValues(index: number): Value[] {
     return this.columns().map(column => column.values()[index]);
   }
 
