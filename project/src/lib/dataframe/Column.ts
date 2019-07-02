@@ -31,8 +31,8 @@ export abstract class Column {
 
   // subclasses must implement these required methods
   abstract length(): number;
-  abstract values(): (number | string | Date | null)[];
-  abstract value(index: number): number | string | Date | null;
+  abstract values(): Value[];
+  abstract value(index: number): Value;
   abstract fromRowIndexes(indexes: number[]): Column;
   abstract bind(bottom: Column): Column;
   abstract summary(): ColumnSummary;
@@ -42,10 +42,10 @@ export abstract class Column {
   abstract categories(): string[];
   abstract mean(): number;
   abstract sum(): number;
-  abstract min(): number | string | Date | null;
-  abstract max(): number | string | Date | null;
-  abstract median(): number | string | Date | null;
+  abstract min(): Value;
+  abstract max(): Value;
+  abstract median(): Value;
   /** percentile by nearest-rank method */
-  abstract percentile(rawRatio: number): number | string | Date | null;
+  abstract percentile(rawRatio: number): Value;
   abstract mutate(predicate: ValuePredicate, mutator: ValueMutator): void;
 }
