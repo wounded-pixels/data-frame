@@ -8,11 +8,11 @@
     "dataframe",
     "data-frame"
   ],
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": false,
   "main": "dist/data-frame.js",
   "module": "dist/data-frame.es.js",
-  "browser": "dist/data-frame.vanilla.js",
+  "browser": "dist/data-frame.es.js",
   "files": [
     "dist"
   ],
@@ -25,7 +25,8 @@
   "scripts": {
     "test": "jest --watch ./src/lib",
     "coverage": "jest --coverage --watch  ./src/lib",
-    "build": "rollup -c && tsc -p ./tsconfig-typings.json"
+    "build": "rollup -c && tsc -p ./tsconfig-typings.json",
+    "dev": "watch 'npm run build' src"
   },
   "eslintConfig": {},
   "browserslist": [
@@ -46,7 +47,8 @@
     "rollup-plugin-typescript": "^1.0.1",
     "ts-jest": "^24.0.2",
     "tslib": "^1.9.3",
-    "typescript": "3.3.3333"
+    "typescript": "3.3.3333",
+    "watch": "^1.0.2"
   },
   "husky": {
     "hooks": {
