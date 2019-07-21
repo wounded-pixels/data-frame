@@ -6,15 +6,15 @@ export default {
   input: './src/data-frame.ts',
   output: [
     {
-      file: pkg.main,
+      file: 'dist/data-frame.js',
       format: 'cjs',
     },
     {
-      file: pkg.module,
+      file: 'dist/data-frame.es.js',
       format: 'es',
     },
     {
-      file: pkg.browser,
+      file: 'dist/data-frame.vanilla.js',
       format: 'iife',
       name: 'DataFrame', // the global which can be used in a browser
     },
